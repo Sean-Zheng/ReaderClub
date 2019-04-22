@@ -34,6 +34,7 @@ class SearchSpider(scrapy.Spider):
             book_info['update_time']=item.xpath('./div[2]/div/p[3]/span[2]/text()').extract_first().strip()
             #最新章节
             book_info['latest_chapters']=item.xpath('./div[2]/div/p[4]/a/text()').extract_first().strip()
+            book_info['latest_chapter_url']=item.xpath('./div[2]/div/p[4]/a/@href').extract_first().strip()
             yield book_info
         #获取下一页地址
         next_page=response.xpath("//div[@class='search-result-page']/div/a[@title='下一页']/@href").extract_first()

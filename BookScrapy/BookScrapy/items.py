@@ -22,6 +22,8 @@ class BookItem(scrapy.Item):
     update_time=scrapy.Field()
     #最新章节
     latest_chapters=scrapy.Field()
+    #最新章节地址
+    latest_chapter_url=scrapy.Field()
     pass
 
 class SearchItem(BookItem):
@@ -41,4 +43,12 @@ class CatalogItem(scrapy.Item):
     text=scrapy.Field()
     # 链接地址
     link=scrapy.Field()
+    pass
+
+class ChapterItem(scrapy.Item):
+    title=scrapy.Field()
+    previous_chapter=scrapy.Field()
+    next_chapter=scrapy.Field()
+    catalog_url=scrapy.Field()
+    content=scrapy.Field()
     pass
