@@ -38,7 +38,9 @@ class SearchSpider(scrapy.Spider):
         #获取下一页地址
         next_page=response.xpath("//div[@class='search-result-page']/div/a[@title='下一页']/@href").extract_first()
         #获取结果页数
-        self.page_count=int(response.xpath("//div[@class='search-result-page']/div/a[@title='末页']/@href").re_first(r"/search.php\?keyword=.+&page=(\d+)"))
+        pages=response.xpath("//div[@class='search-result-page']/div/a[@title='末页']/@href").re_first(r"/search.php\?keyword=.+&page=(\d+)")
+        if pages:
+            self.page_count=int(pages)
         #判断是否有下一页和末页
         if next_page and self.page_count:
             #判断下一页是否是末页
