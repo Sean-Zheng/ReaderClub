@@ -19,7 +19,7 @@ def verify_token(token):
 #令牌验证失败
 @auth.error_handler
 def error_handler():
-    return jsonify(status_code=4,message='权限不足')
+    return jsonify(status=0)
 
 
 #跳转到首页index.html
@@ -35,15 +35,18 @@ def register():
     email=request.get_json(force=True).get('email')
     password=request.get_json(force=True).get('password')
     if email is None or password is None:
-        return jsonify(message='邮箱或密码为空')
+        return jsonify(status=11)
     elif User.query.filter_by(Email=email).first() is not None:
-        return jsonify(message='该用户已存在')
+        return jsonify(status=12)
     else:
         user=User(Email=email)
         user.encrypt_password(password)
         db.session.add(user)
-        db.session.commit()
-        return jsonify(message='用户注册成功')
+        try:
+            db.session.commit()
+        except Exception:
+            return jsonify(status=14)
+        return jsonify(status=13)
 
 
 #登录功能
@@ -51,20 +54,22 @@ def register():
 def login():
     email=request.get_json(force=True).get('email')
     password=request.get_json(force=True).get('password')
+    if email is None or password is None:
+        return jsonify(status=21)
     user=User.query.filter_by(Email=email).first()
     if not user:
-        return jsonify(status=0,message='用户名或密码错误')
+        return jsonify(status=22)
     if user.verify_password(password):
         token=user.generate_auth_token()
-        return jsonify(status=1,message='登陆成功',token=token)
+        return jsonify(status=23,token=token,type='Bearer')
     else:
-        return jsonify(status=0,message='用户名或密码错误')
+        return jsonify(status=22)
 
 
 @app.route('/test/login',methods=['GET','POST'])
 @auth.login_required
 def test_login():
-    return jsonify(code=1,msg='ok')
+    return jsonify(status=3)
 
 
 @app.route('/initdatabase')
