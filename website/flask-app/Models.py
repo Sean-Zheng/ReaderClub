@@ -1,4 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
+from passlib.apps import custom_app_context
+from config import SECRET_KEY
+from itsdangerous import TimedJSONWebSignatureSerializer,BadSignature,SignatureExpired
 db = SQLAlchemy()
 
 
@@ -42,7 +45,7 @@ class User(db.Model):
     UserID = db.Column(db.Integer, autoincrement=True, primary_key=True)
     NickName = db.Column(db.String(20), nullable=True)
     Email = db.Column(db.String(50), nullable=False)
-    Password = db.Column(db.String(50), nullable=False)
+    Password = db.Column(db.String(128), nullable=False)
     Avatar = db.Column(db.String(100), nullable=True)
     Signature = db.Column(db.String(200), nullable=True)
     # 多对多关系定义
@@ -50,7 +53,37 @@ class User(db.Model):
     #一对多关系定义
     marks=db.relationship("Bookmark",backref='user')
     comments=db.relationship("BookComment",backref='user')
-    pass
+
+    #密码加密
+    def encrypt_password(self, password):
+        self.Password=custom_app_context.encrypt(password)
+
+    #密码验证
+    def verify_password(self, password):
+        return custom_app_context.verify(password,self.Password)
+    
+    #生成令牌，默认令牌有效时间5个小时
+    def generate_auth_token(self, expiration=18000):
+        ts=TimedJSONWebSignatureSerializer(SECRET_KEY,expires_in=expiration)
+        return ts.dumps({'email':self.Email,'password':self.Password}).decode('ascii')
+    
+    #验证令牌
+    @staticmethod
+    def verify_auth_token(token):
+        ts=TimedJSONWebSignatureSerializer(SECRET_KEY)
+        try:
+            data=ts.loads(token)
+        except SignatureExpired:
+            return False
+        except BadSignature:
+            return False
+        user=User.query.filter_by(Email=data['email']).first()
+        if not user:#未找到该用户
+            return False
+        elif data['password']==user.Password:
+            return True
+        else:
+            return False
 
 
 class BookMessage(db.Model):
