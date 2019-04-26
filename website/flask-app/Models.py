@@ -1,25 +1,37 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import and_
 from passlib.apps import custom_app_context
 from config import SECRET_KEY
 from itsdangerous import TimedJSONWebSignatureSerializer,BadSignature,SignatureExpired
 db = SQLAlchemy()
 
 
+#书籍-用户关联表
 Bookshelf = db.Table('Bookshelves',
                      db.Column('UserID', db.Integer, db.ForeignKey('Users.UserID'), primary_key=True),
                      db.Column('BookID', db.Integer, db.ForeignKey('BookMessages.BookID'), primary_key=True)
                      )
 
 
+#书籍类型表
 class BookType(db.Model):
     __tablename__ = 'BookTypes'
     TypeID = db.Column(db.Integer, autoincrement=True, primary_key=True)
     TypeName = db.Column(db.String(20), nullable=False)
     # 一对多关系定义
     type_of_books=db.relationship("BookMessage",backref='type')
+
+    '''
+    如果不存在则返回None
+    如果存在则返回类型
+    '''
+    @staticmethod
+    def get_type(type_name):
+        return BookType.query.filter_by(TypeName=type_name).first()
     pass
 
 
+#书签表
 class Bookmark(db.Model):
     __tablename__='Bookmarks'
     UserID = db.Column(db.Integer, db.ForeignKey('Users.UserID'), primary_key=True)
@@ -29,6 +41,7 @@ class Bookmark(db.Model):
     pass
 
 
+#评论表
 class BookComment(db.Model):
     __tablename__='BookComments'
     CommentID=db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -40,6 +53,7 @@ class BookComment(db.Model):
     pass
 
 
+#用户表
 class User(db.Model):
     __tablename__ = 'Users'
     UserID = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -74,18 +88,19 @@ class User(db.Model):
         try:
             data=ts.loads(token)
         except SignatureExpired:
-            return False
+            return None
         except BadSignature:
-            return False
+            return None
         user=User.query.filter_by(Email=data['email']).first()
-        if not user:#未找到该用户
-            return False
+        if user is None:#未找到该用户
+            return None
         elif data['password']==user.Password:
-            return True
+            return user
         else:
-            return False
+            return None
 
 
+#书籍表
 class BookMessage(db.Model):
     __tablename__ = 'BookMessages'
     BookID = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -97,4 +112,15 @@ class BookMessage(db.Model):
     #一对多关系定义
     marks=db.relationship("Bookmark",backref='book')
     comments=db.relationship("BookComment",backref='book')
-    pass
+
+    def __init__(self,book_name,book_author,book_description,book_url):
+        self.BookName=book_name
+        self.BookAuthor=book_author
+        self.BookDescription=book_description
+        self.BookURL=book_url
+        
+
+    #判断书籍是否存在
+    @staticmethod
+    def get_book(book_name,book_author):
+        return BookMessage.query.filter_by(BookName=book_name,BookAuthor=book_author).first()
