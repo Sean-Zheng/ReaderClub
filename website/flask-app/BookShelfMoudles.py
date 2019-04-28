@@ -2,6 +2,7 @@
 
 from app import app,auth
 from flask import request,jsonify,g
+from Models import *
 
 
 #添加到书架
@@ -56,6 +57,7 @@ def book_list():
     book_list=[]
     for book_item in books:
         result_item={}
+        result_item['book_id']=book_item.BookID
         result_item['name']=book_item.BookName
         result_item['author']=book_item.BookAuthor
         result_item['description']=book_item.BookDescription

@@ -3,6 +3,7 @@ from sqlalchemy import and_
 from passlib.apps import custom_app_context
 from config import SECRET_KEY
 from itsdangerous import TimedJSONWebSignatureSerializer,BadSignature,SignatureExpired
+from datetime import datetime
 db = SQLAlchemy()
 
 
@@ -47,7 +48,7 @@ class BookComment(db.Model):
     CommentID=db.Column(db.Integer, autoincrement=True, primary_key=True)
     UserID = db.Column(db.Integer, db.ForeignKey('Users.UserID'), nullable=False)
     BookID = db.Column(db.Integer, db.ForeignKey('BookMessages.BookID'), nullable=False)
-    CommentTime = db.Column(db.DateTime, nullable=False)
+    CommentTime = db.Column(db.DateTime, nullable=False, default=datetime.now)
     Comment = db.Column(db.String(500), nullable=False)
     Score = db.Column(db.Integer, nullable=False)
     pass

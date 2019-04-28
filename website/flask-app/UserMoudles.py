@@ -2,6 +2,7 @@
 
 from app import app
 from flask import request,jsonify
+from Models import *
 
 #注册功能
 @app.route('/user/register',methods=['POST'])

@@ -40,6 +40,8 @@ def index():
 #引入视图映射
 from UserMoudles import *
 from BookShelfMoudles import *
+from MarkMoudles import *
+from CommentMoudles import *
 from TestMoudles import *
 
 
