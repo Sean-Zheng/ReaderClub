@@ -32,6 +32,12 @@ def comment_remove():
     id=request.get_json(force=True).get('comment_id')
     if id is None:
         return jsonify(status=421)
+    comment=BookComment.query.get(id)
+    if comment is None:
+        return jsonify(status=423)
+    db.session.delete(comment)
+    db.session.commit()
+    return jsonify(status=422)
 
 #获取该用户的评论
 @app.route('/comment/user/list')
