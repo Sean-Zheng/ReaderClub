@@ -5,6 +5,11 @@ from flask import request,jsonify
 from Models import *
 
 
+#接口测试
+@app.route('/test/api')
+def test_api():
+    return jsonify(message='这个是来自flask的接口测试')
+
 
 #登陆测试
 @app.route('/test/login',methods=['GET','POST'])

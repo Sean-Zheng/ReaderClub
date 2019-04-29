@@ -1,6 +1,9 @@
 <template>
   <div id="app">
         <Navigation></Navigation>
+        <dir id="view">
+          <router-view />
+        </dir>
   </div>
 </template>
 
@@ -18,5 +21,9 @@ export default {
 body{
   background: rgb(49, 60, 64);
   margin: 0; 
+}
+#view{
+  display: flex;
+  justify-content: center;
 }
 </style>

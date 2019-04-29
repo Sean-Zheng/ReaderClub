@@ -8,16 +8,16 @@
     </div>
     <div class="center">
       <div class="search-box">
-        <el-input placeholder="输入需要搜索的小说">
+        <el-input placeholder="输入需要搜索的小说" v-model="search_key">
           <el-button slot="suffix" type="text" icon="el-icon-search" circle></el-button>
         </el-input>
       </div>
       <div v-if="!login" class="user-box">
-        <router-link to="#">登录</router-link>
-        <router-link to="#">注册</router-link>
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
       </div>
       <div v-if="login" class="user-box">
-          <img src="../assets/user.jpg" width="45px" alt="user image">
+          <img src="../assets/user.jpg" width="40px" alt="user image">
       </div>
     </div>
   </div>
@@ -26,9 +26,14 @@
 <script>
 export default {
   name: "navigation",
+  data() {
+    return {
+      search_key: ''
+    }
+  },
   computed: {
       login() {
-          return true 
+          return false; 
       }
   },
 };
@@ -66,6 +71,10 @@ export default {
 .search-box >>> input {
   background-color: rgba(54, 65, 71, 0.5);
   border: 0px;
+  color: white;
+}
+.search-box >>> button{
+  color: rgb(217,217,217);
 }
 .user-box{
   display: inline-flex !important;
@@ -73,7 +82,7 @@ export default {
 }
 .user-box >>> a {
   text-decoration: none;
-  color: #409eff;
+  color: rgb(217,217,217);
   padding: 0 30px;
 }
 .user-box img{
