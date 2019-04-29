@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/info">info</router-link>
-    </div>
-    <router-view></router-view>
+        <Navigation></Navigation>
   </div>
 </template>
 
+<script>
+import Navigation from './components/Navigation'
+export default {
+  components: {
+    Navigation
+  }
+}
+</script>
+
+
 <style>
 body{
-  background: #364147;
+  background: rgb(49, 60, 64);
+  margin: 0; 
 }
-
 </style>
