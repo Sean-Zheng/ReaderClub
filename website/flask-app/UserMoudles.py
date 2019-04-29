@@ -9,13 +9,15 @@ from Models import *
 def register():
     email=request.get_json(force=True).get('email')
     password=request.get_json(force=True).get('password')
-    if email is None or password is None:
+    nickname=request.get_json(force=True).get('nickname')
+    if email is None or password is None or nickname is None:
         return jsonify(status=111)
     elif User.query.filter_by(Email=email).first() is not None:
         return jsonify(status=113)
     else:
         user=User(Email=email)
         user.encrypt_password(password)
+        user.NickName=nickname
         db.session.add(user)
         try:
             db.session.commit()
