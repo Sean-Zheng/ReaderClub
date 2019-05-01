@@ -8,7 +8,7 @@
         <el-form-item prop="email">
           <el-input type="text" prefix-icon="el-icon-message" v-model="registerForm.email"></el-input>
         </el-form-item>
-        <el-form-item prop="pass">
+        <el-form-item prop="password">
           <el-input
             type="password"
             prefix-icon="el-icon-lock"
@@ -25,10 +25,10 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button>注册</el-button>
+          <el-button @click="submitForm('registerForm')">注册</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button>重置</el-button>
+          <el-button @click="resetForm('registerForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -41,16 +41,57 @@ export default {
   data() {
     //用户名验证
     let validateNickname = (rule, value, callback) => {
-      console.log(rule);
-      console.log(value);
+      //正则表达式，匹配汉字、数字、字母、下划线且不能以下划线开头和结尾
+      let patt = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
+      if (value === "") {
+        callback(new Error("用户名不能为空"));
+      } else if (!patt.test(value)) {
+        callback(
+          new Error(
+            "用户名只能包含汉字、数字、字母、下划线且不能以下划线开头和结尾"
+          )
+        );
+      } else {
+        //检查用户名是否重复
+        axios
+          .get("/flask/user/name", {
+            params: {
+              nickname: value
+            }
+          })
+          .then(response => {
+            if (response.data.status === 131) {
+              callback(new Error("网络错误"));
+            } else if (response.data.status === 132) {
+              if (!response.data.exist) {
+                callback();
+              } else {
+                callback(new Error("用户名已存在"));
+              }
+            }
+          });
+      }
     };
     //密码验证
-    let validatePassword=(rule,value,callback)=>{
-
+    let validatePassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.registerForm.checkpassword !== "") {
+          this.$refs.registerForm.validateField("checkpassword");
+        }
+        callback();
+      }
     };
     //重复密码
-    let validateCheckPassword=(rule,value,callback)=>{
-
+    let validateCheckPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.registerForm.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
     };
     return {
       registerForm: {
@@ -73,15 +114,66 @@ export default {
           }
         ],
         password: [
-            { validator: validatePassword, trigger: "blur" },
-            { min: 8, max: 18, message: '密码长度在 8 到 18 个字符', trigger: 'blur' }
-            ],
+          {
+            min: 8,
+            max: 18,
+            message: "密码长度在 8 到 18 个字符",
+            trigger: "blur"
+          },
+          { validator: validatePassword, trigger: "blur" }
+        ],
         checkpassword: [
-            { validator: validateNickname, trigger: "blur" },
-            { min: 8, max: 18, message: '密码长度在 8 到 18 个字符', trigger: 'blur' }
+          {
+            min: 8,
+            max: 18,
+            message: "密码长度在 8 到 18 个字符",
+            trigger: "blur"
+          },
+          { validator: validateCheckPassword, trigger: "blur" }
         ]
       }
     };
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          axios
+            .post("/flask/user/register", {
+              email: this.registerForm.email,
+              password: this.registerForm.password,
+              nickname: this.registerForm.nickname
+            })
+            .then(response => {
+              if (
+                response.data.status === 111 ||
+                response.data.status === 114
+              ) {
+                this.$message.error("网络提交出错");
+              } else if (response.data.status === 113) {
+                this.$message({
+                  message: "邮箱已被注册",
+                  type: "warning"
+                });
+              } else if (response.data.status === 112) {
+                this.$message({
+                  message: "注册成功",
+                  type: "success"
+                });
+                this.$router.push('/login');
+              } else {
+                this.$message.error("未知错误");
+              }
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 };
 </script>

@@ -41,17 +41,17 @@ def login():
         return jsonify(status=123)
     if user.verify_password(password):
         token=user.generate_auth_token()
-        return jsonify(status=122,token=token,type='Bearer')
+        return jsonify(status=122,token=token,type='Bearer',username=user.NickName)
     else:
         return jsonify(status=123)
 
-@app.route('/user/nickname')
-def nickname_check():
-    nick_name=request.get_json(force=True).get('nickname')
+@app.route('/user/name')
+def name_check():
+    nick_name=request.args.get('nickname')
     if nick_name is None:
         return jsonify(status=131)
     user=User.query.filter_by(NickName=nick_name).first()
     if user:
-        return jsonify(status=132,exist=True)
+        return jsonify(status=132,nickname=nick_name,exist=True)
     else:
-        return jsonify(status=132,exist=False)
+        return jsonify(status=132,nickname=nick_name,exist=False)

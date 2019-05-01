@@ -2,11 +2,11 @@
 import scrapy
 from ..items import SearchItem
 
-
+#https://www.biduo.cc/search.php?keyword=
 class SearchSpider(scrapy.Spider):
     name = 'Search'
-    allowed_domains = ['www.biquge.com.cn']
-    start_urls = ['https://www.biquge.com.cn/search.php?keyword={keyword}'.format(keyword='大道朝天')]
+    allowed_domains = ['www.biduo.cc']
+    start_urls = ['https://www.biduo.cc/search.php?keyword={keyword}'.format(keyword='大道朝天')]
     #当前页数
     current_page=1
     #结果页总数

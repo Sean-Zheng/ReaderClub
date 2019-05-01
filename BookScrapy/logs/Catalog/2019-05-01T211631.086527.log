@@ -1,0 +1,39 @@
+2019-05-01 21:16:53 [scrapy] DEBUG: Retrying <GET https://www.biquge.com.cn/robots.txt> (failed 1 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:17:14 [scrapy] DEBUG: Retrying <GET https://www.biquge.com.cn/robots.txt> (failed 2 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:17:35 [scrapy] DEBUG: Gave up retrying <GET https://www.biquge.com.cn/robots.txt> (failed 3 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:17:35 [scrapy] ERROR: Error downloading <GET https://www.biquge.com.cn/robots.txt>: TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+Traceback (most recent call last):
+  File "c:\users\sean zheng\desktop\graduationproject\graduation-venv\lib\site-packages\scrapy\core\downloader\middleware.py", line 43, in process_request
+    defer.returnValue((yield download_func(request=request,spider=spider)))
+twisted.internet.error.TCPTimedOutError: TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:17:56 [scrapy] DEBUG: Retrying <GET https://www.biquge.com.cn/book/30458/> (failed 1 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:18:17 [scrapy] DEBUG: Retrying <GET https://www.biquge.com.cn/book/30458/> (failed 2 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:18:38 [scrapy] DEBUG: Gave up retrying <GET https://www.biquge.com.cn/book/30458/> (failed 3 times): TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:18:38 [scrapy] ERROR: Error downloading <GET https://www.biquge.com.cn/book/30458/>
+Traceback (most recent call last):
+  File "c:\users\sean zheng\desktop\graduationproject\graduation-venv\lib\site-packages\scrapy\core\downloader\middleware.py", line 43, in process_request
+    defer.returnValue((yield download_func(request=request,spider=spider)))
+twisted.internet.error.TCPTimedOutError: TCP connection timed out: 10060: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。.
+2019-05-01 21:18:38 [scrapy] INFO: Closing spider (finished)
+2019-05-01 21:18:38 [scrapy] INFO: Dumping Scrapy stats:
+{'downloader/exception_count': 6,
+ 'downloader/exception_type_count/twisted.internet.error.TCPTimedOutError': 6,
+ 'downloader/request_bytes': 1359,
+ 'downloader/request_count': 6,
+ 'downloader/request_method_count/GET': 6,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2019, 5, 1, 13, 18, 38, 605187),
+ 'log_count/DEBUG': 6,
+ 'log_count/ERROR': 2,
+ 'log_count/INFO': 12,
+ 'retry/count': 4,
+ 'retry/max_reached': 2,
+ 'retry/reason_count/twisted.internet.error.TCPTimedOutError': 4,
+ "robotstxt/exception_count/<class 'twisted.internet.error.TCPTimedOutError'>": 1,
+ 'robotstxt/request_count': 1,
+ 'scheduler/dequeued': 3,
+ 'scheduler/dequeued/memory': 3,
+ 'scheduler/enqueued': 3,
+ 'scheduler/enqueued/memory': 3,
+ 'start_time': datetime.datetime(2019, 5, 1, 13, 16, 32, 127294)}
+2019-05-01 21:18:38 [scrapy] INFO: Spider closed (finished)
