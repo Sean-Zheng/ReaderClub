@@ -52,3 +52,21 @@ class ChapterItem(scrapy.Item):
     catalog_url=scrapy.Field()
     content=scrapy.Field()
     pass
+
+class RecommendList(scrapy.Item):
+    name=scrapy.Field()
+    author=scrapy.Field()
+    link=scrapy.Field()
+    pass
+
+
+class RecommendDetail(RecommendList):
+    image_url=scrapy.Field()
+    description=scrapy.Field()
+    pass
+
+class HomeRecommend(scrapy.Item):
+    type_name=scrapy.Field()
+    recommend_first=scrapy.Field()
+    recommend_list=scrapy.Field()
+    pass
