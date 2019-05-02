@@ -5,8 +5,8 @@ from ..items import BookDetail,CatalogItem
 
 class CatalogSpider(scrapy.Spider):
     name = 'Catalog'
-    allowed_domains = ['www.biquge.com.cn']
-    start_urls = ['https://www.biquge.com.cn/book/30458/']
+    allowed_domains = ['www.biduo.cc']
+    start_urls = ['https://www.biduo.cc/biquge/0_373/']
 
     def parse(self, response):
         le=LinkExtractor(restrict_xpaths='//div[@id="list"]/dl/dd')

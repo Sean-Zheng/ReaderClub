@@ -6,7 +6,7 @@ from ..items import SearchItem
 class SearchSpider(scrapy.Spider):
     name = 'Search'
     allowed_domains = ['www.biduo.cc']
-    start_urls = ['https://www.biduo.cc/search.php?keyword={keyword}'.format(keyword='大道朝天')]
+    start_urls = ['https://www.biduo.cc/search.php?keyword={keyword}'.format(keyword='大道')]
     #当前页数
     current_page=1
     #结果页总数
