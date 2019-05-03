@@ -1,12 +1,16 @@
 <template>
   <div id="home">
-      <P>home</P>
+      <Classification></Classification>
   </div>
 </template>
 
 <script>
+import Classification from '@/components/Classification'
 export default {
-
+  name:'home',
+  components: {
+    Classification
+  }
 };
 </script>
 

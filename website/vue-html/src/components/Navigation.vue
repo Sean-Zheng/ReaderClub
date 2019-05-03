@@ -2,9 +2,7 @@
   <div id="navigation">
     <div class="ico-box">
       <img src="../assets/logo.png" width="45px" alt="logo">
-      <p>
-        <strong>Reader Club</strong>
-      </p>
+      <router-link to="/"><strong>Reader Club</strong></router-link>
     </div>
     <div class="center">
       <div class="search-box">
@@ -56,9 +54,11 @@ export default {
     display: inline-flex !important;
     align-items: center;
 }
-.ico-box p{
+.ico-box a{
   display: inline-block;
   padding: 0 30px;
+  text-decoration: none;
+  color: rgb(217,217,217);
 }
 .center{
   display: inline-flex !important;

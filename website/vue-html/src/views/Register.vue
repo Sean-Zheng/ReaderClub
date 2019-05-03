@@ -185,6 +185,7 @@ export default {
   background-repeat: no-repeat;
   width: 460px;
   height: 400px;
+  margin: 0 auto;
   padding: 100px 0;
   display: flex;
   align-items: center;
