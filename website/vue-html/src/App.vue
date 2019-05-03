@@ -22,4 +22,7 @@ body{
   background: rgb(49, 60, 64);
   margin: 0; 
 }
+#view{
+  padding: 10px 150px;
+}
 </style>
