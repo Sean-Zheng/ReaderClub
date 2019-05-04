@@ -8,11 +8,11 @@ module.exports={
                     '^/flask':'/'
                 }
             },
-            '/scrapy':{
-                target:'http://localhost:9080',
+            '/scrapyrt':{
+                target:'http://localhost:9080/crawl.json',
                 // changeOrigin:true,
                 pathRewrite:{
-                    '^/scrapy':'/'
+                    '^/scrapyrt':'/'
                 }
             }
         }

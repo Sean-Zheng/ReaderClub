@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 #navigation {
-  background-color: rgb(136, 139, 140);
+  background-color: #BDC3C7;
   height: 55px;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@ export default {
   display: inline-block;
   padding: 0 30px;
   text-decoration: none;
-  color: rgb(217,217,217);
+  color: #2C3E50;
 }
 .center{
   display: inline-flex !important;
@@ -69,12 +69,12 @@ export default {
   width: 300px;
 }
 .search-box >>> input {
-  background-color: rgba(54, 65, 71, 0.5);
+  background-color: #ECF0F1;
   border: 0px;
-  color: white;
+  color: #2C3E50;
 }
 .search-box >>> button{
-  color: rgb(217,217,217);
+  color: #2C3E50;
 }
 .user-box{
   display: inline-flex !important;
@@ -82,7 +82,7 @@ export default {
 }
 .user-box >>> a {
   text-decoration: none;
-  color: rgb(217,217,217);
+  color: #2C3E50;
   padding: 0 30px;
 }
 .user-box img{

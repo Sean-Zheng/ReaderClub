@@ -65,13 +65,12 @@ export default new Vuex.Store({
             context.commit("setToken", response.data);
         },
         homeAction:async context=>{
-            const response= await axios.post('/scrapy/crawl.json',{
+            const response= await axios.post('/scrapyrt',{
                 spider_name:'Home',
                 request:{
                     url:'https://www.biduo.cc/'
                 }
             });
-            // console.log(response.data.items);
             context.commit('setHomerecommend',response.data.items[0]);
             return response.data.status;
         }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Info from './views/Info'
+import BookDetail from './views/BookDetail'
 import Login from './views/Login'
 import Register from './views/Register'
 import Home from './views/Home'
@@ -12,9 +12,9 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/info',
-      name: 'info',
-      component: Info
+      path: '/detail',
+      name: 'detail',
+      component: BookDetail
     },
     {
       path:'/login',

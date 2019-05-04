@@ -180,7 +180,7 @@ export default {
 
 <style scoped>
 #register {
-  background-image: url("../assets/pages.jpg");
+  background-image: url("../assets/pages.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: 460px;

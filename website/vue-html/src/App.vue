@@ -19,7 +19,7 @@ export default {
 
 <style>
 body{
-  background: rgb(49, 60, 64);
+  /* background: #f7f6f2; */
   margin: 0; 
 }
 #view{
