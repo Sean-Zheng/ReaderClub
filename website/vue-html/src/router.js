@@ -4,6 +4,7 @@ import BookDetail from './views/BookDetail'
 import Login from './views/Login'
 import Register from './views/Register'
 import Home from './views/Home'
+import Chapter from './views/Chapter'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path:'/',
       name:'home',
       component:Home
+    },
+    {
+      path:'chapter',
+      name:'chapter',
+      component:Chapter
     }
   ]
 })

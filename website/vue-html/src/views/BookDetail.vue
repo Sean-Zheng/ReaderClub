@@ -22,7 +22,7 @@
         <p>最后更新：{{update_time}}</p>
         <p>
           最新章节：
-          <router-link to="#">{{latest_chapters}}</router-link>
+          <router-link :to="{name:'chapter',query:{url:latest_chapter_url}}">{{latest_chapters}}</router-link>
         </p>
         <div class="intro">
           <p>{{description}}</p>
@@ -34,34 +34,13 @@
         v-for="item in catalogs"
         :key="item.link"
       >
-        <router-link to="#">{{ item.text }}</router-link>
+        <router-link :to="{name:'chapter',query:{url:item.link}}">{{ item.text }}</router-link>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-/**
- * 
- * "name": "大道仙路",
-    "author": "醉剑仙",
-    "status": "连载中",
-    "book_type": "武侠修真",
-    "update_time": "2015-05-13 09:20:27",
-    "latest_chapters": "第二十二章 入门",
-    "latest_chapter_url": "https://www.biduo.cc/biquge/0_373/c40223.html",
-    "image_url": "https://www.biduo.cc/files/article/image/0/373/373s.jpg",
-    "description": "一个被逐出家族的少年，在一个优胜劣汰，适者生存的世界里，履历艰险，从练气，筑基，金丹，最终凝结元婴，且看主人公如何让在长生仙路上，披荆斩刺一路前行。\n\r\n\t\t\t\t各位书友要是觉得《大道仙路》还不错的话请不要忘记向您QQ群和微博里的朋友推荐哦！",
-    "catalogs": [
-        {
-            "text": "第一章 逐出家族",
-            "link": "https://www.biduo.cc/biquge/0_373/c39514.html"
-        },
-        {
-            "text": "第二章 死里逃生",
-            "link": "https://www.biduo.cc/biquge/0_373/c39515.html"
-        },
- */
 import axios from "axios";
 export default {
   name: "book-detail",
