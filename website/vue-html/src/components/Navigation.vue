@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 #navigation {
-  background-color: #BDC3C7;
+  background-color: rgba(189, 195, 199,1.0);
   height: 55px;
   display: flex;
   align-items: center;

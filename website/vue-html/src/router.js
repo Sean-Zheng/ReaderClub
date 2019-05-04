@@ -33,7 +33,7 @@ export default new Router({
       component:Home
     },
     {
-      path:'chapter',
+      path:'/chapter',
       name:'chapter',
       component:Chapter
     }

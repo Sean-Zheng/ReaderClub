@@ -34,7 +34,7 @@
         v-for="item in catalogs"
         :key="item.link"
       >
-        <router-link :to="{name:'chapter',query:{url:item.link}}">{{ item.text }}</router-link>
+        <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
       </li>
     </ul>
   </div>
