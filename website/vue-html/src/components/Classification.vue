@@ -71,6 +71,7 @@ export default {};
   line-height: 50px;
 }
 #classification li a {
+  user-select: none;
   color: #2c3e50;
   text-decoration: none;
 }

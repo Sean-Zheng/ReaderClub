@@ -55,6 +55,8 @@ export default {
     align-items: center;
 }
 .ico-box a{
+  user-select: none;
+  white-space: nowrap;
   display: inline-block;
   padding: 0 30px;
   text-decoration: none;
@@ -81,6 +83,8 @@ export default {
   align-items: center;
 }
 .user-box >>> a {
+  white-space: nowrap;
+  user-select: none;
   text-decoration: none;
   color: #2C3E50;
   padding: 0 30px;

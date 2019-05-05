@@ -1,5 +1,5 @@
 <template>
-  <div id="book-detail">
+  <div id="book-detail" v-loading.fullscreen.lock="loading">
     <div class="link-box">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item>
@@ -22,7 +22,7 @@
         <p>最后更新：{{update_time}}</p>
         <p>
           最新章节：
-          <router-link :to="{name:'chapter',query:{url:latest_chapter_url}}">{{latest_chapters}}</router-link>
+          <router-link :to="{name:'chapter',query:{link:latest_chapter_url}}">{{latest_chapters}}</router-link>
         </p>
         <div class="intro">
           <p>{{description}}</p>
@@ -46,6 +46,7 @@ export default {
   name: "book-detail",
   data() {
     return {
+      loading:true,
       name: "",
       author: "",
       status: "",
@@ -73,6 +74,7 @@ export default {
             type: "warning"
           });
         } else {
+          this.loading=false;
           const msg = response.data.items[0];
           this.name = msg.name;
           this.author = msg.author;

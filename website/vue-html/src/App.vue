@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="main">
+  <div id="app" ref="main" @contextmenu.prevent>
     <Navigation></Navigation>
     <dir id="view">
       <router-view/>
@@ -19,7 +19,7 @@ export default {
         document.getElementById('navigation').style.backgroundColor='rgba(189, 195, 199,1.0)';
         document.body.style.backgroundColor = "#343f45";
         document.body.style.backgroundImage = '';
-      } else {
+      }else if(to.path!=='/chapter'){
         document.getElementById('navigation').style.backgroundColor='rgba(189, 195, 199,1.0)';
         document.body.style.backgroundColor = "#ffffff";
         document.body.style.backgroundImage = '';
