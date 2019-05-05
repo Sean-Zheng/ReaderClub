@@ -18,24 +18,24 @@ export default new Router({
       component: BookDetail
     },
     {
-      path:'/login',
-      name:'login',
-      component:Login
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
-      path:'/register',
-      name:'register',
-      component:Register
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
-      path:'/',
-      name:'home',
-      component:Home
+      path: '/',
+      name: 'home',
+      component: Home
     },
     {
-      path:'/chapter',
-      name:'chapter',
-      component:Chapter
+      path: '/chapter',
+      name: 'chapter',
+      component: Chapter
     }
   ]
 })

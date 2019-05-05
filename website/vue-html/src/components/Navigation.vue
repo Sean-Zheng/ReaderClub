@@ -2,7 +2,9 @@
   <div id="navigation">
     <div class="ico-box">
       <img src="../assets/logo.png" width="45px" alt="logo">
-      <router-link to="/"><strong>Reader Club</strong></router-link>
+      <router-link to="/">
+        <strong>Reader Club</strong>
+      </router-link>
     </div>
     <div class="center">
       <div class="search-box">
@@ -15,7 +17,7 @@
         <router-link to="/register">注册</router-link>
       </div>
       <div v-if="login" class="user-box">
-          <img src="../assets/user.jpg" width="40px" alt="user image">
+        <img src="../assets/user.jpg" width="40px" alt="user image">
       </div>
     </div>
   </div>
@@ -26,43 +28,43 @@ export default {
   name: "navigation",
   data() {
     return {
-      search_key: ''
-    }
+      search_key: ""
+    };
   },
   computed: {
-      login() {
-          return false; 
-      }
-  },
+    login() {
+      return false;
+    }
+  }
 };
 </script>
 
 <style scoped>
 #navigation {
-  background-color: rgba(189, 195, 199,1.0);
+  background-color: rgba(189, 195, 199, 0.4);
   height: 55px;
   display: flex;
   align-items: center;
 }
-#navigation div{
-    display: inline-block;
+#navigation div {
+  display: inline-block;
 }
-.ico-box{
-    box-sizing: border-box;
-    width: 55%;
-    padding-left: 300px;
-    display: inline-flex !important;
-    align-items: center;
+.ico-box {
+  box-sizing: border-box;
+  width: 55%;
+  padding-left: 300px;
+  display: inline-flex !important;
+  align-items: center;
 }
-.ico-box a{
+.ico-box a {
   user-select: none;
   white-space: nowrap;
   display: inline-block;
   padding: 0 30px;
   text-decoration: none;
-  color: #2C3E50;
+  color: #2c3e50;
 }
-.center{
+.center {
   display: inline-flex !important;
   align-items: center;
 }
@@ -71,14 +73,14 @@ export default {
   width: 300px;
 }
 .search-box >>> input {
-  background-color: #ECF0F1;
+  background-color: #ecf0f1;
   border: 0px;
-  color: #2C3E50;
+  color: #2c3e50;
 }
-.search-box >>> button{
-  color: #2C3E50;
+.search-box >>> button {
+  color: #2c3e50;
 }
-.user-box{
+.user-box {
   display: inline-flex !important;
   align-items: center;
 }
@@ -86,10 +88,10 @@ export default {
   white-space: nowrap;
   user-select: none;
   text-decoration: none;
-  color: #2C3E50;
+  color: #2c3e50;
   padding: 0 30px;
 }
-.user-box img{
+.user-box img {
   border-radius: 50%;
 }
 </style>

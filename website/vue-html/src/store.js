@@ -14,26 +14,30 @@ export default new Vuex.Store({
             username: ''
         },
         //首页推荐信息
-        home:{
-            home_list:[],
-            classification_list:[]
-        }
+        home: {
+            home_list: [],
+            classification_list: []
+        },
+        theme: 'default'
     },
     getters: {
         getToken: state => {
             return `${state.authorization.type} ${state.authorization.token}`;
         },
-        getLoginResult:state=>{
-            if(state.authorization.status===122){
+        getLoginResult: state => {
+            if (state.authorization.status === 122) {
                 return true;
             }
             return false;
         },
-        getHomeList:state=>{
+        getHomeList: state => {
             return state.home.home_list;
         },
-        getClassificationList:state=>{
+        getClassificationList: state => {
             return state.home.classification_list;
+        },
+        getTheme: state => {
+            return state.theme;
         }
     },
     mutations: {
@@ -45,15 +49,18 @@ export default new Vuex.Store({
             }
             state.authorization.status = data.status;
         },
-        removeToken:state=>{
-            state.authorization.status=undefined;
-            state.authorization.type='';
-            state.authorization.username='';
-            state.authorization.token=''
+        removeToken: state => {
+            state.authorization.status = undefined;
+            state.authorization.type = '';
+            state.authorization.username = '';
+            state.authorization.token = ''
         },
-        setHomerecommend:(state,data)=>{
-            state.home.home_list=data.home_list;
-            state.home.classification_list=data.classification_list;
+        setHomerecommend: (state, data) => {
+            state.home.home_list = data.home_list;
+            state.home.classification_list = data.classification_list;
+        },
+        setTheme: (state, theme) => {
+            state.theme = theme;
         }
     },
     actions: {
@@ -64,14 +71,14 @@ export default new Vuex.Store({
             });
             context.commit("setToken", response.data);
         },
-        homeAction:async context=>{
-            const response= await axios.post('/scrapyrt',{
-                spider_name:'Home',
-                request:{
-                    url:'https://www.biduo.cc/'
+        homeAction: async context => {
+            const response = await axios.post('/scrapyrt', {
+                spider_name: 'Home',
+                request: {
+                    url: 'https://www.biduo.cc/'
                 }
             });
-            context.commit('setHomerecommend',response.data.items[0]);
+            context.commit('setHomerecommend', response.data.items[0]);
             return response.data.status;
         }
     }

@@ -1,18 +1,16 @@
 <template>
-    <div id="classification-recommend">
-        <h2>{{type_name}}</h2>
-        <div class="first">
-            
-        </div>
-        <ul v-for="item in recommend_list" :key="item.name">
-            <li>
-                <p>
-                    <router-link to="#">{{item.name}}</router-link>
-                    <span>{{item.author}}</span>
-                </p>
-            </li>
-        </ul>
-    </div>
+  <div id="classification-recommend">
+    <h2>{{type_name}}</h2>
+    <div class="first"></div>
+    <ul v-for="item in recommend_list" :key="item.name">
+      <li>
+        <p>
+          <router-link to="#">{{item.name}}</router-link>
+          <span>{{item.author}}</span>
+        </p>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -32,28 +30,27 @@
             "author": "烽火戏诸侯"
         }
  */
-    export default {
-        name:'classification-recommend',
-        props: {
-            type_name: {
-                type: String,
-                default: '',
-                required:true
-            },
-            recommend_first:{
-                type:Object,
-                default:null,
-                required:true
-            },
-            recommend_list:{
-                type:Array,
-                default:null,
-                required:true
-            }
-        }
+export default {
+  name: "classification-recommend",
+  props: {
+    type_name: {
+      type: String,
+      default: "",
+      required: true
+    },
+    recommend_first: {
+      type: Object,
+      default: null,
+      required: true
+    },
+    recommend_list: {
+      type: Array,
+      default: null,
+      required: true
     }
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

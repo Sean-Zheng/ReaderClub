@@ -30,23 +30,22 @@
       </div>
     </div>
     <ul class="catalogs">
-      <li
-        v-for="item in catalogs"
-        :key="item.link"
-      >
+      <li v-for="item in catalogs" :key="item.link">
         <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
       </li>
     </ul>
+    <to-top/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ToTop from "@/components/ToTop";
 export default {
   name: "book-detail",
   data() {
     return {
-      loading:true,
+      loading: true,
       name: "",
       author: "",
       status: "",
@@ -58,6 +57,9 @@ export default {
       description: "",
       catalogs: []
     };
+  },
+  components: {
+    ToTop
   },
   created() {
     axios
@@ -74,7 +76,7 @@ export default {
             type: "warning"
           });
         } else {
-          this.loading=false;
+          this.loading = false;
           const msg = response.data.items[0];
           this.name = msg.name;
           this.author = msg.author;
@@ -146,6 +148,7 @@ export default {
 }
 .catalogs {
   margin: 20px 70px;
+  overflow: hidden;
 }
 .catalogs > li {
   list-style: none;
@@ -166,5 +169,9 @@ export default {
 .catalogs > li > a:hover {
   text-decoration: underline;
   color: #c0392b;
+}
+.to-top {
+  bottom: 50px;
+  right: 100px;
 }
 </style>

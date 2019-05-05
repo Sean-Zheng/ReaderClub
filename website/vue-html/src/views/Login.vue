@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "login",
   data() {
@@ -64,7 +64,7 @@ export default {
               message: "登陆成功",
               type: "success"
             });
-            this.$store.push('/')
+            this.$store.push("/");
           } else {
             this.$message({
               message: "登陆失败",

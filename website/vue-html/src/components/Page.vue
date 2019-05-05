@@ -1,14 +1,20 @@
 <template>
   <div id="page" @contextmenu.prevent>
-    <div class="side">
-      <ul ref="list">
+    <div class="side" :class="getPageColor()">
+      <ul>
+        <!-- 目录 -->
         <el-popover
           v-model="showCatalogs"
           placement="right-start"
           trigger="click"
           @show="getCatalogs"
         >
-          <div ref="catalog" v-loading="catalogs_loading" class="catalog-box">
+          <div
+            v-loading="catalogs_loading"
+            element-loading-background="rgba(255,255,255,0.3)"
+            class="catalog-box"
+            :class="getSideColor()"
+          >
             <h3>目录</h3>
             <dl>
               <dd v-for="item in catalogs" :key="item.link" @click="showCatalogs=false">
@@ -21,27 +27,47 @@
             <span>目录</span>
           </li>
         </el-popover>
-        <el-popover placement="right-start" width="200" trigger="click">
-          <div class="setting-box">
-
+        <!-- 设置 -->
+        <el-popover
+          placement="right-start"
+          trigger="click"
+          v-model="showSetting"
+          @hide="resetTheme()"
+        >
+          <div class="setting-box" :class="getSideColor()">
+            <dl class="color-list">
+              <dd :class="theme==='default'?'el-icon-check':''" @click="theme='default'"></dd>
+              <dd :class="theme==='yellow'?'el-icon-check':''" @click="theme='yellow'"></dd>
+              <dd :class="theme==='green'?'el-icon-check':''" @click="theme='green'"></dd>
+              <dd :class="theme==='blue'?'el-icon-check':''" @click="theme='blue'"></dd>
+              <dd :class="theme==='gray'?'el-icon-check':''" @click="theme='gray'"></dd>
+              <dd :class="theme==='black'?'el-icon-check':''" @click="theme='black'"></dd>
+            </dl>
+            <div>
+              <el-button @click="showSetting=false">取消</el-button>
+              <el-button type="primary" @click="changeColor(theme)">确认</el-button>
+            </div>
           </div>
           <li slot="reference">
             <em class="iconfont icon-shezhi1"></em>
             <span>设置</span>
           </li>
         </el-popover>
-        <el-popover placement="right-start" width="200" trigger="click">
+        <!-- 书架 -->
+        <el-popover placement="right-start" trigger="click">
           <li slot="reference">
             <em class="iconfont icon-shujia"></em>
             <span>书架</span>
           </li>
         </el-popover>
-        <el-popover placement="right-start" width="200" trigger="click">
+        <!-- 书签 -->
+        <el-popover placement="right-start" trigger="click">
           <li slot="reference">
             <em class="iconfont icon-icon--"></em>
             <span>书签</span>
           </li>
         </el-popover>
+        <!-- 评论 -->
         <el-popover placement="right-start" width="200" trigger="click">
           <li slot="reference">
             <em class="iconfont icon-pinglun"></em>
@@ -50,80 +76,52 @@
         </el-popover>
       </ul>
     </div>
-    <div ref="page" class="main-box">
+    <div class="main-box" :class="getPageColor()">
       <div class="title-box">
-        <h3 ref="chapter_title">{{chapter_title}}</h3>
+        <h3>{{chapter_title}}</h3>
       </div>
-      <p ref="content" v-html="content"></p>
+      <p v-html="content"></p>
     </div>
-    <div ref="link_box" class="link-box">
+    <div class="link-box" :class="getPageColor()">
       <router-link :to="{name:'chapter',query:{link:previous}}">上一章</router-link>
       <router-link :to="{name:'detail',query:{url:catalogs_url}}">目录</router-link>
       <router-link :to="{name:'chapter',query:{link:next}}">下一章</router-link>
     </div>
-    <div class="iconfont icon-top top" @click="toTop"></div>
+    <to-top :class="getPageColor()"/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ToTop from "@/components/ToTop";
 export default {
   name: "page",
   data() {
     return {
+      theme: this.$store.getters.getTheme,
       showCatalogs: false,
+      showSetting: false,
       loadding: true,
       catalogs_loading: true,
-      catalogs: [],
-      black_class:{
-         background: `url(${require("../assets/body5.png")})`
-      },
-      theme: {
-        default: {
-          background: `url(${require("../assets/body0.png")})`,
-          pages: `url(${require("../assets/page0.png")})`,
-          font: "#262626"
-        },
-        yellow: {
-          background: `url(${require("../assets/body1.png")})`,
-          pages: `url(${require("../assets/page1.png")})`,
-          font: "#3b3a37"
-        },
-        green: {
-          background: `url(${require("../assets/body2.png")})`,
-          pages: `url(${require("../assets/page2.png")})`,
-          font: "#262626"
-        },
-        blue: {
-          background: `url(${require("../assets/body3.png")})`,
-          pages: `url(${require("../assets/page3.png")})`,
-          font: "#262626"
-        },
-        graty: {
-          background: `url(${require("../assets/body4.png")})`,
-          pages: `url(${require("../assets/page4.png")})`,
-          font: "#262626"
-        },
-        black: {
-          background: `url(${require("../assets/body5.png")})`,
-          pages: `url(${require("../assets/page5.png")})`,
-          font: "#666"
-        }
-      }
+      catalogs: []
     };
   },
   methods: {
     //更换背景颜色
     changeColor(themeStr) {
-      this.$refs.catalog.style.backgroundImage = this.theme[themeStr].pages;
-      this.$refs.list.style.backgroundImage = this.theme[themeStr].pages;
-      this.$refs.chapter_title.style.color = this.theme[themeStr].font;
-      this.$refs.content.style.color = this.theme[themeStr].font;
-      this.$refs.page.style.backgroundImage = this.theme[themeStr].pages;
-      this.$refs.link_box.style.backgroundImage = this.theme[themeStr].pages;
-      document.body.style.backgroundImage = this.theme[themeStr].background;
-      document.getElementById("navigation").style.backgroundColor =
-        "rgba(255,255,255,0.4)";
+      this.$store.commit("setTheme", themeStr);
+      this.showSetting = false;
+    },
+    resetTheme() {
+      this.theme = this.$store.getters.getTheme;
+    },
+    getPageColor() {
+      return `${this.$store.getters.getTheme}-page ${
+        this.$store.getters.getTheme
+      }-font`;
+    },
+    getSideColor() {
+      return `${this.$store.getters.getTheme}-side`;
     },
     getCatalogs() {
       axios
@@ -151,30 +149,6 @@ export default {
             type: "warning"
           });
         });
-    },
-    toTop() {
-      let that = this;
-      let timer = setInterval(() => {
-        let ispeed = Math.floor(-that.scrollTop / 5);
-        document.documentElement.scrollTop = document.body.scrollTop =
-          that.scrollTop + ispeed;
-        if (that.scrollTop === 0) {
-          clearInterval(timer);
-        }
-      }, 16);
-    },
-    scrollToTop() {
-      let that = this;
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
-      that.scrollTop = scrollTop;
-      if (that.scrollTop > 60) {
-        that.btnFlag = true;
-      } else {
-        that.btnFlag = false;
-      }
     }
   },
   props: {
@@ -205,11 +179,15 @@ export default {
     }
   },
   mounted() {
-    this.changeColor("default");
-    window.addEventListener("scroll", this.scrollToTop);
+    document.getElementById("app").addEventListener("scroll", this.scrollToTop);
   },
   destroyed() {
-    window.removeEventListener("scroll", this.scrollToTop);
+    document
+      .getElementById("app")
+      .removeEventListener("scroll", this.scrollToTop);
+  },
+  components: {
+    ToTop
   }
 };
 </script>
@@ -273,9 +251,53 @@ export default {
   text-decoration: underline;
   color: #c0392b;
 }
-.setting-box{
-  width: 650px;
-  height: 200px;
+.setting-box {
+  width: 500px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.color-list {
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  overflow: auto;
+}
+.color-list > dd {
+  width: 45px;
+  height: 45px;
+  font-size: 25px;
+  line-height: 45px;
+  text-align: center;
+  margin: 0;
+  border-radius: 50%;
+  color: #ed4259;
+  border: 1px solid #ed4259;
+  cursor: pointer;
+}
+.color-list > dd:nth-child(1) {
+  background-image: url("../assets/page0.png");
+}
+.color-list > dd:nth-child(2) {
+  background-image: url("../assets/page1.png");
+}
+.color-list > dd:nth-child(3) {
+  background-image: url("../assets/page2.png");
+}
+.color-list > dd:nth-child(4) {
+  background-image: url("../assets/page3.png");
+}
+.color-list > dd:nth-child(5) {
+  background-image: url("../assets/page4.png");
+}
+.color-list > dd:nth-child(6) {
+  background-image: url("../assets/page5.png");
+}
+.setting-box > div {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 }
 .title-box > h3 {
   margin: 0;
@@ -295,7 +317,7 @@ export default {
   line-height: 35px;
   font-weight: lighter;
 }
-.link-box{
+.link-box {
   width: 1020px;
   height: 70px;
   margin: 30px auto 0;
@@ -303,7 +325,7 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-.link-box>a{
+.link-box > a {
   text-decoration: none;
   text-align: center;
   line-height: 70px;
@@ -312,25 +334,75 @@ export default {
   border: 1px solid #d8d8d8;
   color: #2c3e50;
 }
-.link-box>a:hover{
-  background-color: rgba(0,0,0,0.1);
+.link-box > a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
-.top {
-  width: 60px;
-  height: 60px;
-  position: fixed;
-  font-size: 30px;
-  text-align: center;
-  line-height: 60px;
+.to-top {
   bottom: 50px;
   left: 1270px;
-  cursor: pointer;
-  border: 1px solid #d8d8d8;
+}
+/*
+主题类
+*/
+.default-page {
+  background-image: url("../assets/page0.png");
+}
+.yellow-page {
+  background-image: url("../assets/page1.png");
+}
+.green-page {
+  background-image: url("../assets/page2.png");
+}
+.blue-page {
+  background-image: url("../assets/page3.png");
+}
+.gray-page {
+  background-image: url("../assets/page4.png");
+}
+.black-page {
+  background-image: url("../assets/page5.png");
+}
+
+.default-side {
+  background-image: url("../assets/side0.png");
+}
+.yellow-side {
+  background-image: url("../assets/side1.png");
+}
+.green-side {
+  background-image: url("../assets/side2.png");
+}
+.blue-side {
+  background-image: url("../assets/side3.png");
+}
+.gray-side {
+  background-image: url("../assets/side4.png");
+}
+.black-side {
+  background-image: url("../assets/side5.png");
+}
+.default-font {
+  color: #262626;
+}
+.yellow-font {
+  color: #3b3a37;
+}
+.green-font {
+  color: #262626;
+}
+.blue-font {
+  color: #262626;
+}
+.gray-font {
+  color: #262626;
+}
+.black-font {
+  color: #666;
 }
 </style>
 
 <style>
 .el-popover {
-  padding: 0;
+  padding: 1px;
 }
 </style>

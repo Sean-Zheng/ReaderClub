@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import axios from "axios"
-import Page from "@/components/Page"
+import axios from "axios";
+import Page from "@/components/Page";
 export default {
   name: "chapter",
   data() {
@@ -51,7 +51,7 @@ export default {
             });
           } else if (response.data.errors) {
             //爬虫参数出错
-            alert('aa');
+            alert("aa");
             this.$router.push({
               name: "detail",
               query: { url: this.$route.query.link }
@@ -85,6 +85,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>

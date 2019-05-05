@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style scoped>
-.home-first{
+.home-first {
   /* display: inline; */
   display: flex;
   justify-content: space-around;

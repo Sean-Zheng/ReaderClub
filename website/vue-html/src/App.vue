@@ -1,9 +1,9 @@
 <template>
-  <div id="app" ref="main" @contextmenu.prevent>
+  <div id="app" ref="main" @contextmenu.prevent :class="getBodyStyle()">
     <Navigation></Navigation>
-    <dir id="view">
+    <div id="view">
       <router-view/>
-    </dir>
+    </div>
   </div>
 </template>
 
@@ -13,16 +13,18 @@ export default {
   components: {
     Navigation
   },
-  watch: {
-    $route(to, from) {
-      if (to.path === "/login" || to.path === "/register") {
-        document.getElementById('navigation').style.backgroundColor='rgba(189, 195, 199,1.0)';
-        document.body.style.backgroundColor = "#343f45";
-        document.body.style.backgroundImage = '';
-      }else if(to.path!=='/chapter'){
-        document.getElementById('navigation').style.backgroundColor='rgba(189, 195, 199,1.0)';
-        document.body.style.backgroundColor = "#ffffff";
-        document.body.style.backgroundImage = '';
+  methods: {
+    getBodyStyle() {
+      switch (this.$route.path) {
+        case "/":
+          return "home-body";
+        case "/login":
+        case "/register":
+          return "user-body";
+        case "/chapter":
+          return `${this.$store.getters.getTheme}-body`;
+        default:
+          return "home-body";
       }
     }
   }
@@ -31,11 +33,43 @@ export default {
 
 
 <style>
+html {
+  height: 100%;
+}
 body {
   margin: 0;
+  height: 100%;
   background-repeat: repeat;
+}
+#app {
+  height: 100%;
+  overflow: auto;
 }
 #view {
   padding: 10px 150px;
+}
+.home-body {
+  background-color: #ffffff;
+}
+.user-body {
+  background-color: #343f45;
+}
+.default-body {
+  background-image: url("./assets/body0.png");
+}
+.yellow-body {
+  background-image: url("./assets/body1.png");
+}
+.green-body {
+  background-image: url("./assets/body2.png");
+}
+.blue-body {
+  background-image: url("./assets/body3.png");
+}
+.gray-body {
+  background-image: url("./assets/body4.png");
+}
+.black-body {
+  background-image: url("./assets/body5.png");
 }
 </style>
