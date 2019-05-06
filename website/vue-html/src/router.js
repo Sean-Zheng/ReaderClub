@@ -5,6 +5,7 @@ import Login from './views/Login'
 import Register from './views/Register'
 import Home from './views/Home'
 import Chapter from './views/Chapter'
+import SearchResult from './views/SearchResult'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/chapter',
       name: 'chapter',
       component: Chapter
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: SearchResult
     }
   ]
 })

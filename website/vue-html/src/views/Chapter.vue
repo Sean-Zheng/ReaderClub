@@ -7,7 +7,7 @@
       :previous="previous_chapter"
       :next="next_chapter"
       v-loading.fullscreen.lock="loading"
-      element-loading-background="rgba(0,0,0,0)"
+      element-loading-background="rgba(0,0,0,0.4)"
     ></page>
   </div>
 </template>
@@ -51,7 +51,6 @@ export default {
             });
           } else if (response.data.errors) {
             //爬虫参数出错
-            alert("aa");
             this.$router.push({
               name: "detail",
               query: { url: this.$route.query.link }
@@ -79,8 +78,10 @@ export default {
   watch: {
     $route(to, from) {
       this.getData();
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+      this.loading = true;
+      this.content = "";
+      this.title = "";
+      document.getElementById("app").scrollTop = 0;
     }
   }
 };

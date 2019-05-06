@@ -9,7 +9,7 @@
     <div class="center">
       <div class="search-box">
         <el-input placeholder="输入需要搜索的小说" v-model="search_key">
-          <el-button slot="suffix" type="text" icon="el-icon-search" circle></el-button>
+          <el-button slot="suffix" type="text" icon="el-icon-search" circle @click="search()"></el-button>
         </el-input>
       </div>
       <div v-if="!login" class="user-box">
@@ -34,6 +34,23 @@ export default {
   computed: {
     login() {
       return false;
+    }
+  },
+  methods: {
+    search() {
+      if (this.search_key === "") {
+        this.$message({
+          message: "登陆失败",
+          type: "warning"
+        });
+      } else {
+        this.$router.push({
+          name: "search",
+          query: {
+            keyword: this.search_key
+          }
+        });
+      }
     }
   }
 };

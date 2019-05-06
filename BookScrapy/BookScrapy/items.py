@@ -29,6 +29,8 @@ class BookItem(scrapy.Item):
 class SearchItem(BookItem):
     #书籍地址
     source_url=scrapy.Field()
+    #结果总数
+    page_count=scrapy.Field()
     pass
 
 class BookDetail(BookItem):

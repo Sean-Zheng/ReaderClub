@@ -13,7 +13,7 @@
     </div>
     <div class="message">
       <div class="img-box">
-        <img :src="image_url" :alt="name" width="140" height="175">
+        <img :src="image_url" :alt="name" width="140" height="175" @error="imgDefault($event)">
       </div>
       <div class="desc-box">
         <h1>{{name}}</h1>
@@ -57,6 +57,11 @@ export default {
       description: "",
       catalogs: []
     };
+  },
+  methods: {
+    imgDefault(event) {
+      this.image_url = require("@/assets/nocover.jpg");
+    }
   },
   components: {
     ToTop
