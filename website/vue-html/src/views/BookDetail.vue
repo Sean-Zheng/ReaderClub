@@ -22,7 +22,10 @@
         <p>最后更新：{{update_time}}</p>
         <p>
           最新章节：
-          <router-link :to="{name:'chapter',query:{link:latest_chapter_url}}">{{latest_chapters}}</router-link>
+          <router-link
+            :to="{name:'chapter',query:{link:latest_chapter_url}}"
+            style="color:rgb(124, 153, 204);"
+          >{{latest_chapters}}</router-link>
         </p>
         <div class="intro">
           <p>{{description}}</p>

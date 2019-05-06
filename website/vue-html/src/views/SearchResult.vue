@@ -59,12 +59,6 @@ export default {
             this.results = response.data.items;
             this.page_count = response.data.items[0].page_count;
           }
-        })
-        .catch(() => {
-          this.$message({
-            message: "网络错误",
-            type: "warning"
-          });
         });
     },
     currentChange(val) {
@@ -85,6 +79,9 @@ export default {
     $route(to, from) {
       if (to.path === "/search") {
         this.loading = true;
+        if (to.query.keyword !== from.query.keyword) {
+          this.current = 1;
+        }
         this.searchBooks();
       }
     }

@@ -8,7 +8,7 @@
         <recommend></recommend>
       </div>
     </div>
-    <div class="home-sceond">
+    <div class="home-second">
       <div
         class="item"
         v-for="item in this.$store.getters.getClassificationList"
@@ -58,8 +58,11 @@ export default {
 
 <style scoped>
 .home-first {
-  /* display: inline; */
   display: flex;
   justify-content: space-around;
+}
+.home-second {
+  overflow: auto;
+  margin: 30px 0;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="page" @contextmenu.prevent>
+  <div id="page" >
     <div class="side" :class="getPageColor()">
       <ul>
         <!-- 目录 -->

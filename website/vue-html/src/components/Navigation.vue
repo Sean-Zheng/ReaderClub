@@ -8,7 +8,7 @@
     </div>
     <div class="center">
       <div class="search-box">
-        <el-input placeholder="输入需要搜索的小说" v-model="search_key">
+        <el-input placeholder="输入需要搜索的小说" v-model="search_key" @keyup.enter.native="search()">
           <el-button slot="suffix" type="text" icon="el-icon-search" circle @click="search()"></el-button>
         </el-input>
       </div>
@@ -40,7 +40,7 @@ export default {
     search() {
       if (this.search_key === "") {
         this.$message({
-          message: "登陆失败",
+          message: "请输入所要搜索的内容",
           type: "warning"
         });
       } else {
@@ -50,6 +50,7 @@ export default {
             keyword: this.search_key
           }
         });
+        this.search_key = "";
       }
     }
   }

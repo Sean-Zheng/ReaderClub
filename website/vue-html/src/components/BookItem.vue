@@ -3,22 +3,31 @@
     <div class="item">
       <div class="img-box">
         <router-link :to="{name:'detail',query:{url:item.source_url}}">
-          <img :src="item.image_url" :alt="item.name" width="120" height="150" @error="imgDefault($event)" >
+          <img
+            :src="item.image_url"
+            :alt="item.name"
+            width="120"
+            height="150"
+            @error="imgDefault($event)"
+          >
         </router-link>
       </div>
       <dl class="message-box">
         <dt>
           <router-link :to="{name:'detail',query:{url:item.source_url}}">{{item.name}}</router-link>
-          <span>{{item.author}}</span>
+          <span>
+            <router-link :to="{name:'search',query:{keyword:item.author}}">{{item.author}}</router-link>
+          </span>
           <span>{{item.book_type}}</span>
         </dt>
         <dd class="des">{{item.description}}</dd>
-        <dd class="chapter">最新更新：
-            <router-link :to="{name:'chapter',query:{link:item.latest_chapter_url}}">
-                {{item.latest_chapters}}
-            </router-link>
+        <dd class="chapter">
+          最新更新：
+          <router-link
+            :to="{name:'chapter',query:{link:item.latest_chapter_url}}"
+          >{{item.latest_chapters}}</router-link>
         </dd>
-        <dd class="time-box">{{item.update_time}}</dd>
+        <dd class="time-box">最后更新：{{item.update_time}}</dd>
       </dl>
     </div>
   </div>
@@ -35,9 +44,9 @@ export default {
     }
   },
   methods: {
-      imgDefault(event) {
-          this.item.image_url=require('@/assets/nocover.jpg');
-      }
+    imgDefault(event) {
+      this.item.image_url = require("@/assets/nocover.jpg");
+    }
   }
 };
 </script>
@@ -71,11 +80,11 @@ export default {
   margin: 20px;
   height: 70px;
 }
-.chapter{
-    float: left;
+.chapter {
+  float: left;
 }
-.time-box{
-    margin: 0;
-    float: right;
+.time-box {
+  margin: 0;
+  float: right;
 }
 </style>

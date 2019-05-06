@@ -3,13 +3,24 @@
     <div class="input-box">
       <el-form status-icon v-bind:model="registerForm" v-bind:rules="rules" ref="registerForm">
         <el-form-item prop="nickname">
-          <el-input type="text" prefix-icon="el-icon-user" v-model="registerForm.nickname"></el-input>
+          <el-input
+            type="text"
+            prefix-icon="el-icon-user"
+            placeholder="用户名"
+            v-model="registerForm.nickname"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="email">
-          <el-input type="text" prefix-icon="el-icon-message" v-model="registerForm.email"></el-input>
+          <el-input
+            type="text"
+            prefix-icon="el-icon-message"
+            placeholder="邮箱"
+            v-model="registerForm.email"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
+            placeholder="请输入密码"
             type="password"
             prefix-icon="el-icon-lock"
             v-model="registerForm.password"
@@ -18,6 +29,7 @@
         </el-form-item>
         <el-form-item prop="checkpassword">
           <el-input
+            placeholder="请再次输入密码"
             type="password"
             prefix-icon="el-icon-lock"
             v-model="registerForm.checkpassword"
