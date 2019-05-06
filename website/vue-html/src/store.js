@@ -18,6 +18,16 @@ export default new Vuex.Store({
             home_list: [],
             classification_list: []
         },
+        typeLink: {
+            玄幻魔法: 'https://www.biduo.cc/book_1_1/',
+            武侠修真: 'https://www.biduo.cc/book_2_1/',
+            都市言情: 'https://www.biduo.cc/book_3_1/',
+            历史军事: 'https://www.biduo.cc/book_4_1/',
+            网游动漫: 'https://www.biduo.cc/book_6_1/',
+            科幻小说: 'https://www.biduo.cc/book_7_1/',
+            恐怖灵异: 'https://www.biduo.cc/book_8_1/',
+            其他小说: 'https://www.biduo.cc/book_10_1/'
+        },
         theme: 'default'
     },
     getters: {

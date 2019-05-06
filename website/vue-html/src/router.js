@@ -6,6 +6,7 @@ import Register from './views/Register'
 import Home from './views/Home'
 import Chapter from './views/Chapter'
 import SearchResult from './views/SearchResult'
+import TypeView from './views/TypeView'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: SearchResult
+    },
+    {
+      path: '/type/:typename',
+      name: 'type',
+      component: TypeView
     }
   ]
 })

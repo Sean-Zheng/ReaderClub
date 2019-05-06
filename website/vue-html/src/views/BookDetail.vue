@@ -6,7 +6,7 @@
           <router-link to="/">首页</router-link>
         </el-breadcrumb-item>
         <el-breadcrumb-item>
-          <router-link to="#">{{book_type}}</router-link>
+          <router-link :to="{path:`/type/${book_type}`}">{{book_type}}</router-link>
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{name}}</el-breadcrumb-item>
       </el-breadcrumb>
