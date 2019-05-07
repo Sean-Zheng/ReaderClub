@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div class="home">
     <div class="home-first">
       <div>
         <classification></classification>
@@ -57,6 +57,10 @@ export default {
 </script>
 
 <style scoped>
+.home{
+  padding: 10px 150px;
+  /* overflow: auto; */
+}
 .home-first {
   display: flex;
   justify-content: space-around;

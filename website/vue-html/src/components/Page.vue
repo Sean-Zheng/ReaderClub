@@ -1,5 +1,5 @@
 <template>
-  <div id="page" >
+  <div id="page">
     <div class="side" :class="getPageColor()">
       <ul>
         <!-- 目录 -->
@@ -53,13 +53,11 @@
             <span>设置</span>
           </li>
         </el-popover>
-        <!-- 书架 -->
-        <el-popover placement="right-start" trigger="click">
-          <li slot="reference">
-            <em class="iconfont icon-shujia"></em>
-            <span>书架</span>
-          </li>
-        </el-popover>
+        <li @click="addToShelf()">
+          <em class="iconfont icon-shujia"></em>
+          <span v-if="isExist">已在书架</span>
+          <span v-else>书架</span>
+        </li>
         <!-- 书签 -->
         <el-popover placement="right-start" trigger="click">
           <li slot="reference">
@@ -94,6 +92,7 @@
 <script>
 import axios from "axios";
 import ToTop from "@/components/ToTop";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "page",
   data() {
@@ -103,8 +102,29 @@ export default {
       showSetting: false,
       loadding: true,
       catalogs_loading: true,
-      catalogs: []
+      name: "",
+      author: "",
+      catalogs: [],
     };
+  },
+  computed: {
+    ...mapGetters(["getBookList", "getLoginResult"]),
+    isExist() {
+      //判断是否已经登陆
+      if (this.getLoginResult) {
+        let result = this.getBookList.find(
+          item => item.name === this.name && item.author === this.author
+        );
+        return result === undefined ? false : true;
+      } else {
+        return false;
+      }
+    }
+  },
+  watch: {
+    catalogs_url(newval, oldval) {
+      this.getCatalogs();
+    }
   },
   methods: {
     //更换背景颜色
@@ -134,22 +154,70 @@ export default {
         .then(response => {
           if (response.data.status !== "ok") {
             this.$message({
-              message: "网络错误",
+              message: "网络错误!",
               type: "warning"
             });
           } else {
             this.catalogs_loading = false;
             const msg = response.data.items[0];
             this.catalogs = msg.catalogs;
+            this.name = msg.name;
+            this.author = msg.author;
+            this.description = msg.description;
+            this.book_type = msg.book_type;
           }
         })
         .catch(() => {
           this.$message({
-            message: "网络错误",
+            message: "网络错误?",
             type: "warning"
           });
         });
-    }
+    },
+    addToShelf() {
+      if (this.isExist) {
+        return;
+      }
+      axios
+        .post(
+          "/flask/book/add",
+          {
+            name: this.name,
+            author: this.author,
+            description: this.description,
+            source_url: this.catalogs_url,
+            book_type: this.book_type
+          },
+          {
+            headers: {
+              Authorization: this.$store.getters.getToken
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.status === 212) {
+            this.$message({
+              message: "添加成功",
+              type: "success"
+            });
+            this.isExist = true;
+          } else {
+            this.$message({
+              message: "网络错误",
+              type: "warning"
+            });
+          }
+        })
+        .catch(() => {
+          //请登录
+          this.$message({
+            message: "请登陆账号...",
+            type: "warning"
+          });
+          this.$router.push("/login");
+        });
+    },
+    ...mapActions(["getBookListAction"])
   },
   props: {
     chapter_title: {
@@ -177,6 +245,9 @@ export default {
       default: "",
       required: true
     }
+  },
+  created() {
+    this.getBookListAction();
   },
   mounted() {
     document.getElementById("app").addEventListener("scroll", this.scrollToTop);

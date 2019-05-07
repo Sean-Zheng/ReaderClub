@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
+.type-view{
+  padding: 10px 150px;
+}
 .detail {
   overflow: auto;
   display: flex;

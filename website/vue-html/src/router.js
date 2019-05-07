@@ -7,6 +7,7 @@ import Home from './views/Home'
 import Chapter from './views/Chapter'
 import SearchResult from './views/SearchResult'
 import TypeView from './views/TypeView'
+import Space from './views/Space'
 
 Vue.use(Router)
 
@@ -48,6 +49,10 @@ export default new Router({
       path: '/type/:typename',
       name: 'type',
       component: TypeView
+    }, {
+      path: '/space/:id',
+      name: 'space',
+      component: Space
     }
   ]
 })

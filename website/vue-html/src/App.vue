@@ -46,7 +46,7 @@ body {
   overflow: auto;
 }
 #view {
-  padding: 10px 150px;
+  /* padding: 0 150px; */
 }
 .home-body {
   background-color: #ffffff;

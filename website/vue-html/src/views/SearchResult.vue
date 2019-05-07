@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search-result">
     <p>“{{keyword}}”搜索结果:</p>
     <book-item :item="item" v-for="item in results" :key="item.source_url"></book-item>
     <div class="result-list" v-loading.fullscreen.lock="loading">
@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style scoped>
+.search-result {
+  padding: 10px 150px;
+}
 .el-pagination {
   margin: 30px;
   display: flex;

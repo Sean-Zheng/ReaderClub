@@ -1,5 +1,5 @@
 <template>
-  <div id="chapter">
+  <div class="chapter">
     <page
       :chapter_title="title"
       :content="content"
@@ -86,3 +86,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.chapter {
+  padding: 10px 150px;
+}
+</style>

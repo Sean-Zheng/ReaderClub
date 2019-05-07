@@ -17,7 +17,22 @@
         <router-link to="/register">注册</router-link>
       </div>
       <div v-else class="user-box">
-        <img src="../assets/user.jpg" width="40px" alt="user image">
+        <el-popover placement="bottom" width="200" trigger="hover">
+          <div class="operation">
+            <el-button type="text" @click="toSpace()">个人中心</el-button>
+            <el-button type="text" @click="logout()">退出</el-button>
+          </div>
+          <el-button type="text" slot="reference">
+            <img
+              src="../assets/user.jpg"
+              class="avatar"
+              width="40px"
+              alt="user image"
+              @click="toSpace()"
+            >
+          </el-button>
+        </el-popover>
+
         <p class="name-box">{{this.$store.state.authorization.username}}</p>
       </div>
     </div>
@@ -25,7 +40,6 @@
 </template>
 
 <script>
-// import axios from "axios";
 export default {
   name: "navigation",
   data() {
@@ -54,22 +68,16 @@ export default {
         });
         this.search_key = "";
       }
+    },
+    logout() {
+      this.$store.commit("removeToken");
+      if (this.$route.name === "space") {
+        this.$router.push("/");
+      }
+    },
+    toSpace() {
+      this.$router.push(`/space/${this.$store.getters.getUserId}`);
     }
-    // test() {
-    //   console.log(this.$store.getters.getToken);
-    //   axios
-    //     .get("/flask/test/login", {
-    //       headers: {
-    //         Authorization: this.$store.getters.getToken
-    //       }
-    //     })
-    //     .then(response => {
-    //       console.log(response.data);
-    //     })
-    //     .catch(() => {
-
-    //     });
-    // }
   }
 };
 </script>
@@ -83,6 +91,13 @@ export default {
 }
 #navigation div {
   display: inline-block;
+}
+.operation {
+  display: flex;
+  justify-content: center;
+}
+.operation >>> button {
+  width: 60px;
 }
 .ico-box {
   box-sizing: border-box;
@@ -126,7 +141,8 @@ export default {
   color: #2c3e50;
   padding: 0 30px;
 }
-.user-box img {
+
+.avatar {
   border-radius: 50%;
   cursor: pointer;
 }

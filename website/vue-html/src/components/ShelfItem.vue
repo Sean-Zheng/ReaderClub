@@ -1,17 +1,6 @@
 <template>
-  <div class="book-item">
+  <div class="shelf-item">
     <div class="item">
-      <div class="img-box">
-        <router-link :to="{name:'detail',query:{url:item.source_url}}">
-          <img
-            :src="item.image_url"
-            :alt="item.name"
-            width="120"
-            height="150"
-            @error="imgDefault($event)"
-          >
-        </router-link>
-      </div>
       <dl class="message-box">
         <dt>
           <router-link :to="{name:'detail',query:{url:item.source_url}}">{{item.name}}</router-link>
@@ -21,17 +10,10 @@
           <span>{{item.book_type}}</span>
         </dt>
         <dd class="des">{{item.description}}</dd>
-        <dd class="chapter">
-          最新更新：
-          <router-link
-            :to="{name:'chapter',query:{link:item.latest_chapter_url}}"
-          >{{item.latest_chapters}}</router-link>
-        </dd>
-        <dd class="time-box">最后更新：{{item.update_time}}</dd>
       </dl>
       <div class="user-operation">
         <el-button plain @click="toDetail()">书籍详情</el-button>
-        <el-button type="primary" @click="addToShelf()">加入书架</el-button>
+        <el-button type="primary" @click="removeFromShelf()">移出书架</el-button>
       </div>
     </div>
   </div>
@@ -40,7 +22,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "book-item",
+  name: "shelf-item",
   props: {
     item: {
       type: Object,
@@ -58,27 +40,16 @@ export default {
         query: { url: this.item.source_url }
       });
     },
-    addToShelf() {
-      axios
-        .post(
-          "/flask/book/add",
-          {
-            name: this.item.name,
-            author: this.item.author,
-            description: this.item.description,
-            source_url: this.item.source_url,
-            book_type: this.item.book_type
-          },
-          {
-            headers: {
-              Authorization: this.$store.getters.getToken
-            }
-          }
-        )
+    removeFromShelf() {
+      this.$store
+        .dispatch("removeBookAction", {
+          name: this.item.name,
+          author: this.item.author
+        })
         .then(res => {
-          if (res.data.status === 212) {
+          if (res === 222) {
             this.$message({
-              message: "添加成功",
+              message: "删除成功",
               type: "success"
             });
           } else {
@@ -87,14 +58,6 @@ export default {
               type: "warning"
             });
           }
-        })
-        .catch(() => {
-          //请登录
-          this.$message({
-            message: "请登陆账号...",
-            type: "warning"
-          });
-          this.$router.push("/login");
         });
     }
   }

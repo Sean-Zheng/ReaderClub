@@ -1,5 +1,5 @@
 <template>
-  <div id="book-detail" v-loading.fullscreen.lock="loading">
+  <div class="book-detail" v-loading.fullscreen.lock="loading">
     <div class="link-box">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item>
@@ -18,7 +18,10 @@
       <div class="desc-box">
         <h1>{{name}}</h1>
         <p>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：{{author}}</p>
-        <p>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：{{status}}</p>
+        <p>
+          状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：{{status}}
+          <el-button type="text" @click="addToShelf()">加入书架</el-button>
+        </p>
         <p>最后更新：{{update_time}}</p>
         <p>
           最新章节：
@@ -32,11 +35,11 @@
         </div>
       </div>
     </div>
-    <ul class="catalogs">
+    <!-- <ul class="catalogs">
       <li v-for="item in catalogs" :key="item.link">
         <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
       </li>
-    </ul>
+    </ul> -->
     <to-top/>
   </div>
 </template>
@@ -64,6 +67,45 @@ export default {
   methods: {
     imgDefault(event) {
       this.image_url = require("@/assets/nocover.jpg");
+    },
+    addToShelf() {
+      axios
+        .post(
+          "/flask/book/add",
+          {
+            name: this.name,
+            author: this.author,
+            description: this.description,
+            source_url: this.$route.query.url,
+            book_type: this.book_type
+          },
+          {
+            headers: {
+              Authorization: this.$store.getters.getToken
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.status === 212) {
+            this.$message({
+              message: "添加成功",
+              type: "success"
+            });
+          } else {
+            this.$message({
+              message: "网络错误",
+              type: "warning"
+            });
+          }
+        })
+        .catch(() => {
+          //请登录
+          this.$message({
+            message: "请登陆账号...",
+            type: "warning"
+          });
+          this.$router.push("/login");
+        });
     }
   },
   components: {
@@ -109,6 +151,9 @@ export default {
 </script>
 
 <style scoped>
+.book-detail {
+  padding: 10px 150px;
+}
 .color-box {
   background-color: #f7f6f2;
 }

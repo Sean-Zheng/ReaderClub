@@ -41,6 +41,13 @@ class Bookmark(db.Model):
     BookmarkDescription = db.Column(db.String(100), nullable=True)
     pass
 
+#用户喜欢的书籍类型
+class Favourite(db.Model):
+    __tablename__='Favourite' 
+    UserID = db.Column(db.Integer, db.ForeignKey('Users.UserID'), primary_key=True)
+    TypeID = db.Column(db.Integer, db.ForeignKey('BookTypes.TypeID'), primary_key=True)
+    pass
+
 
 #评论表
 class BookComment(db.Model):
@@ -63,11 +70,13 @@ class User(db.Model):
     Password = db.Column(db.String(128), nullable=False)
     Avatar = db.Column(db.String(100), nullable=True)
     Signature = db.Column(db.String(200), nullable=True)
+    Setting=db.Column(db.String(500), nullable=True)#用户设置表
     # 多对多关系定义
     books = db.relationship('BookMessage', secondary=Bookshelf, backref=db.backref('users'))
     #一对多关系定义
     marks=db.relationship("Bookmark",backref='user')
     comments=db.relationship("BookComment",backref='user')
+    favourite=db.relationship("Favourite",backref='user')
 
     #密码加密
     def encrypt_password(self, password):

@@ -1,4 +1,4 @@
-#用户书签模块
+#用户评论模块
 
 from app import app,auth
 from flask import request,jsonify,g
@@ -7,12 +7,13 @@ from Models import *
 @app.route('/comment/add',methods=['POST'])
 @auth.login_required
 def comment_add():
-    book_id=request.get_json(force=True).get('book_id')
+    book_name=request.get_json(force=True).get('book_name')
+    book_author=request.get_json(force=True).get('book_author')
     comment_text=request.get_json(force=True).get('comment_text')
     score=request.get_json(force=True).get('score')
     if book_id is None or comment_text is None or score is None:
         return jsonify(status=411)
-    book_message=BookMessage.query.get(book_id)
+    book_message=BookMessage.get_book(book_name,book_author)
     if book_message is None:
         return jsonify(status=413)
     comment=BookComment()

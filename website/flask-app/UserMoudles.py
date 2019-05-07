@@ -41,7 +41,9 @@ def login():
         return jsonify(status=123)
     if user.verify_password(password):
         token=user.generate_auth_token()
-        return jsonify(status=122,token=token,type='Bearer',username=user.NickName)
+        return jsonify(status=122,token=token,type='Bearer',
+        username=user.NickName,id=user.UserID,
+        avatar=user.Avatar,signature=user.Signature,email=user.Email)
     else:
         return jsonify(status=123)
 
