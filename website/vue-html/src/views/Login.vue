@@ -1,5 +1,10 @@
 <template>
-  <div id="login">
+  <div
+    id="login"
+    v-loading.fullscreen.lock="loading"
+    element-loading-text="登陆中..."
+    element-loading-background="#343f45"
+  >
     <div class="input-box">
       <el-form v-bind:model="loginForm" v-bind:rules="rules" ref="loginForm">
         <el-form-item prop="account">
@@ -33,6 +38,7 @@ export default {
   name: "login",
   data() {
     return {
+      loading: false,
       loginForm: {
         account: "",
         password: ""
@@ -53,6 +59,7 @@ export default {
   },
   methods: {
     login() {
+      this.loading = true;
       this.$store
         .dispatch("loginAction", {
           account: this.loginForm.account,
@@ -60,12 +67,14 @@ export default {
         })
         .then(() => {
           if (this.$store.getters.getLoginResult) {
+            this.loading = false;
             this.$message({
               message: "登陆成功",
               type: "success"
             });
-            this.$store.push("/");
+            this.$router.push("/");
           } else {
+            this.loading = false;
             this.$message({
               message: "登陆失败",
               type: "warning"

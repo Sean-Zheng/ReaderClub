@@ -13,9 +13,9 @@ auth=HTTPTokenAuth()
 #令牌验证
 @auth.verify_token
 def verify_token(token):
-    # user=User.verify_auth_token(token)
+    user=User.verify_auth_token(token)
     #暂时关闭用户验证令牌
-    user=User.query.filter_by(Email="sean").first()
+    # user=User.query.filter_by(Email="sean").first()
     if user is None:
         return False
     else:

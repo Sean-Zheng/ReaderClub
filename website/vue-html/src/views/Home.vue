@@ -60,6 +60,7 @@ export default {
 .home-first {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 .home-second {
   overflow: auto;

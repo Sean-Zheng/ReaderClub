@@ -1,28 +1,21 @@
 <template>
   <div class="type-view" v-loading.fullscreen.lock="loading">
     <type-navigation @routeChange="getWebData"/>
-    <p>{{this.$route.params.typename}}</p>
-    <p>{{this.$store.state.typeLink['玄幻魔法']}}</p>
-    <ul>
-      <li v-for="item in detail_list" :key="item.link">
-        <router-link :to="{name:'detail',query:{url:item.link}}">{{ item.name }}</router-link>-
-        <router-link :to="{name:'search',query:{keyword:item.author}}">{{ item.author }}</router-link>
-        <p>{{item.description}}</p>
-      </li>
-    </ul>
+    <div class="detail">
+      <type-detail-recommend v-for="item in detail_list" :key="item.link" :DetailItem="item"></type-detail-recommend>
+    </div>
     <hr>
-    <ul>
-      <li v-for="item in simple_list" :key="item.link">
-        <router-link :to="{name:'detail',query:{url:item.link}}">{{ item.name }}</router-link>-
-        <router-link :to="{name:'search',query:{keyword:item.author}}">{{ item.author }}</router-link>
-      </li>
-    </ul>
+    <div>
+      <type-simple-recommend v-for="item in simple_list" :key="item.link" :SimpleItem="item"></type-simple-recommend>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import TypeNavigation from "@/components/TypeNavigation";
+import TypeDetailRecommend from "@/components/TypeDetailRecommend";
+import TypeSimpleRecommend from "@/components/TypeSimpleRecommend";
 export default {
   name: "type-view",
   data() {
@@ -70,10 +63,18 @@ export default {
     this.getWebData();
   },
   components: {
-    TypeNavigation
+    TypeNavigation,
+    TypeDetailRecommend,
+    TypeSimpleRecommend
   }
 };
 </script>
 
 <style scoped>
+.detail {
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 </style>

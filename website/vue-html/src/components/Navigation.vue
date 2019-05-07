@@ -16,14 +16,16 @@
         <router-link to="/login">登录</router-link>
         <router-link to="/register">注册</router-link>
       </div>
-      <div v-if="login" class="user-box">
+      <div v-else class="user-box">
         <img src="../assets/user.jpg" width="40px" alt="user image">
+        <p class="name-box">{{this.$store.state.authorization.username}}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// import axios from "axios";
 export default {
   name: "navigation",
   data() {
@@ -33,7 +35,7 @@ export default {
   },
   computed: {
     login() {
-      return false;
+      return this.$store.getters.getLoginResult;
     }
   },
   methods: {
@@ -53,6 +55,21 @@ export default {
         this.search_key = "";
       }
     }
+    // test() {
+    //   console.log(this.$store.getters.getToken);
+    //   axios
+    //     .get("/flask/test/login", {
+    //       headers: {
+    //         Authorization: this.$store.getters.getToken
+    //       }
+    //     })
+    //     .then(response => {
+    //       console.log(response.data);
+    //     })
+    //     .catch(() => {
+
+    //     });
+    // }
   }
 };
 </script>
@@ -111,5 +128,10 @@ export default {
 }
 .user-box img {
   border-radius: 50%;
+  cursor: pointer;
+}
+.name-box {
+  padding: 0 20px;
+  cursor: default;
 }
 </style>
