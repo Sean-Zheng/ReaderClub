@@ -11,7 +11,7 @@ def comment_add():
     book_author=request.get_json(force=True).get('book_author')
     comment_text=request.get_json(force=True).get('comment_text')
     score=request.get_json(force=True).get('score')
-    if book_id is None or comment_text is None or score is None:
+    if book_name is None or book_author is None or comment_text is None or score is None:
         return jsonify(status=411)
     book_message=BookMessage.get_book(book_name,book_author)
     if book_message is None:
@@ -63,8 +63,7 @@ def comment_user_list():
 
 
 #获取该书的评论
-@app.route('/comment/book/list')
-@auth.login_required
+@app.route('/comment/book/list',methods=['POST'])
 def comment_book_list():
     book_name=request.get_json(force=True).get('name')
     book_author=request.get_json(force=True).get('author')

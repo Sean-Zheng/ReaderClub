@@ -111,6 +111,9 @@ export default new Vuex.Store({
             return response.data.status;
         },
         getBookListAction: async context => {
+            if (!context.getters.getLoginResult) {
+                return;
+            }
             const response = await axios.get('/flask/book/list', {
                 headers: {
                     Authorization: context.getters.getToken

@@ -3,25 +3,24 @@
     <div class="side" :class="getPageColor()">
       <ul>
         <!-- 目录 -->
-        <el-popover
-          v-model="showCatalogs"
-          placement="right-start"
-          trigger="click"
-          @show="getCatalogs"
-        >
-          <div
-            v-loading="catalogs_loading"
-            element-loading-background="rgba(255,255,255,0.3)"
-            class="catalog-box"
-            :class="getSideColor()"
-          >
-            <h3>目录</h3>
-            <dl>
-              <dd v-for="item in catalogs" :key="item.link" @click="showCatalogs=false">
-                <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
-              </dd>
-            </dl>
-          </div>
+        <el-popover v-model="showCatalogs" placement="right-start" trigger="click">
+          <el-tabs type="border-card" v-model="activeName" :class="getSideColor()">
+            <el-tab-pane label="目录" name="catalogs">
+              <div
+                element-loading-background="rgba(255,255,255,0.3)"
+                class="catalog-box"
+                :class="getSideColor()"
+              >
+                <dl>
+                  <dd v-for="item in catalogs" :key="item.link" @click="showCatalogs=false">
+                    <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
+                  </dd>
+                </dl>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="书签" name="marks">书签</el-tab-pane>
+          </el-tabs>
+
           <li slot="reference">
             <em class="iconfont icon-mulu"></em>
             <span>目录</span>
@@ -59,14 +58,22 @@
           <span v-else>书架</span>
         </li>
         <!-- 书签 -->
-        <el-popover placement="right-start" trigger="click">
+        <el-popover placement="right-start" trigger="click" v-model="showMarks" @show="judgeLogin()">
           <li slot="reference">
             <em class="iconfont icon-icon--"></em>
             <span>书签</span>
           </li>
         </el-popover>
         <!-- 评论 -->
-        <el-popover placement="right-start" width="200" trigger="click">
+        <el-popover
+          placement="right-start"
+          trigger="click"
+          v-model="showComment"
+          @show="judgeLogin()"
+        >
+          <div class="comment-box">
+            <comment-add :name="name" :author="author" @commentAddSuccess="showComment=false"></comment-add>
+          </div>
           <li slot="reference">
             <em class="iconfont icon-pinglun"></em>
             <span>评论</span>
@@ -92,19 +99,23 @@
 <script>
 import axios from "axios";
 import ToTop from "@/components/ToTop";
+import CommentAdd from "@/components/CommentAdd";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "page",
   data() {
     return {
       theme: this.$store.getters.getTheme,
+      activeName: "catalogs",
       showCatalogs: false,
       showSetting: false,
+      showMarks:false,
+      showComment: false,
       loadding: true,
       catalogs_loading: true,
       name: "",
       author: "",
-      catalogs: [],
+      catalogs: []
     };
   },
   computed: {
@@ -217,6 +228,15 @@ export default {
           this.$router.push("/login");
         });
     },
+    judgeLogin() {
+      if (!this.$store.getters.getLoginResult) {
+        this.$message({
+          message: "请登陆账号...",
+          type: "warning"
+        });
+        this.$router.push("/login");
+      }
+    },
     ...mapActions(["getBookListAction"])
   },
   props: {
@@ -258,7 +278,8 @@ export default {
       .removeEventListener("scroll", this.scrollToTop);
   },
   components: {
-    ToTop
+    ToTop,
+    CommentAdd
   }
 };
 </script>
@@ -293,14 +314,12 @@ export default {
 .side > ul li > em {
   font-size: 20px;
 }
-.catalog-box {
+.el-tabs {
   background-color: aliceblue;
   width: 650px;
   height: 750px;
 }
-.catalog-box > h3 {
-  margin: 0;
-  padding: 20px;
+.catalog-box {
 }
 .catalog-box > dl {
   margin: 0;
@@ -369,6 +388,10 @@ export default {
   display: flex;
   justify-content: center;
   padding-top: 20px;
+}
+.comment-add {
+  width: 700px;
+  margin: 20px;
 }
 .title-box > h3 {
   margin: 0;

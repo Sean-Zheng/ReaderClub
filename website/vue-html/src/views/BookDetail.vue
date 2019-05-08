@@ -18,10 +18,7 @@
       <div class="desc-box">
         <h1>{{name}}</h1>
         <p>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：{{author}}</p>
-        <p>
-          状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：{{status}}
-          <el-button type="text" @click="addToShelf()">加入书架</el-button>
-        </p>
+        <p>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：{{status}}</p>
         <p>最后更新：{{update_time}}</p>
         <p>
           最新章节：
@@ -35,11 +32,18 @@
         </div>
       </div>
     </div>
-    <!-- <ul class="catalogs">
-      <li v-for="item in catalogs" :key="item.link">
-        <router-link :to="{name:'chapter',query:{link:item.link}}">{{ item.text }}</router-link>
-      </li>
-    </ul> -->
+    <div class="opration-box">
+      <el-button @click="addToShelf()">加入书架</el-button>
+      <el-button @click="readBook()" type="primary">开始阅读</el-button>
+    </div>
+
+    <div class="commend-box">
+      <comment-add :name="name" :author="author" @commentAddSuccess="initComments"></comment-add>
+      <div class="comment-list">
+        <p v-if="comments.length===0">暂无评论</p>
+        <comment-item v-else v-for="item in comments" :Item="item" :key="item.comment_id"></comment-item>
+      </div>
+    </div>
     <to-top/>
   </div>
 </template>
@@ -47,6 +51,8 @@
 <script>
 import axios from "axios";
 import ToTop from "@/components/ToTop";
+import CommentAdd from "@/components/CommentAdd";
+import CommentItem from "@/components/CommentItem";
 export default {
   name: "book-detail",
   data() {
@@ -61,7 +67,8 @@ export default {
       latest_chapter_url: "",
       image_url: "",
       description: "",
-      catalogs: []
+      catalogs: [],
+      comments: []
     };
   },
   methods: {
@@ -106,46 +113,69 @@ export default {
           });
           this.$router.push("/login");
         });
-    }
-  },
-  components: {
-    ToTop
-  },
-  created() {
-    axios
-      .post("/scrapyrt", {
-        spider_name: "Catalog",
-        request: {
-          url: this.$route.query.url
-        }
-      })
-      .then(response => {
-        if (response.data.status !== "ok") {
+    },
+    readBook() {
+      this.$router.push({
+        name: "chapter",
+        query: { link: this.catalogs[0].link }
+      });
+    },
+    initMessage() {
+      return axios
+        .post("/scrapyrt", {
+          spider_name: "Catalog",
+          request: {
+            url: this.$route.query.url
+          }
+        })
+        .then(response => {
+          if (response.data.status !== "ok") {
+            this.$message({
+              message: "网络错误",
+              type: "warning"
+            });
+          } else {
+            this.loading = false;
+            const msg = response.data.items[0];
+            this.name = msg.name;
+            this.author = msg.author;
+            this.status = msg.status;
+            this.book_type = msg.book_type;
+            this.update_time = msg.update_time;
+            this.latest_chapters = msg.latest_chapters;
+            this.latest_chapter_url = msg.latest_chapter_url;
+            this.image_url = msg.image_url;
+            this.description = msg.description;
+            this.catalogs = msg.catalogs;
+          }
+        })
+        .catch(() => {
           this.$message({
             message: "网络错误",
             type: "warning"
           });
-        } else {
-          this.loading = false;
-          const msg = response.data.items[0];
-          this.name = msg.name;
-          this.author = msg.author;
-          this.status = msg.status;
-          this.book_type = msg.book_type;
-          this.update_time = msg.update_time;
-          this.latest_chapters = msg.latest_chapters;
-          this.latest_chapter_url = msg.latest_chapter_url;
-          this.image_url = msg.image_url;
-          this.description = msg.description;
-          this.catalogs = msg.catalogs;
-        }
-      })
-      .catch(() => {
-        this.$message({
-          message: "网络错误",
-          type: "warning"
         });
-      });
+    },
+    initComments() {
+      axios
+        .post("/flask/comment/book/list", {
+          name: this.name,
+          author: this.author
+        })
+        .then(res => {
+          this.comments = res.data.list;
+        });
+    }
+  },
+  components: {
+    ToTop,
+    CommentAdd,
+    CommentItem
+  },
+  created() {
+    this.initMessage().then(() => {
+      this.initComments();
+    });
   }
 };
 </script>
@@ -222,6 +252,17 @@ export default {
 .catalogs > li > a:hover {
   text-decoration: underline;
   color: #c0392b;
+}
+.comment-list {
+  margin: 50px auto;
+  width: 1000px;
+}
+.comment-list > p {
+  text-align: center;
+}
+.opration-box {
+  display: flex;
+  justify-content: center;
 }
 .to-top {
   bottom: 50px;
