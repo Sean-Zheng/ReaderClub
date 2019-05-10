@@ -157,7 +157,7 @@ export default {
     },
     getCatalogs() {
       axios
-        .post("/scrapyrt", {
+        .post(`${process.env.VUE_APP_SCRAPY_URL}`, {
           spider_name: "Catalog",
           request: {
             url: this.catalogs_url
@@ -192,7 +192,7 @@ export default {
       }
       axios
         .post(
-          "/flask/book/add",
+          `${process.env.VUE_APP_FLASK_URL}/book/add`,
           {
             name: this.name,
             author: this.author,

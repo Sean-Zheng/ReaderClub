@@ -22,3 +22,16 @@ Authorization: Bearer {{token}}
 
 ### 字典测试
 GET http://127.0.0.1:5000/test/dict HTTP/1.1
+
+### 爬虫测试
+POST http://localhost:9080/crawl.json HTTP/1.1
+Content-Type: application/json
+
+{
+    "spider_name": "Home",
+    "request": {
+        "url": "https://www.biduo.cc/"
+    }
+}
+
+# content

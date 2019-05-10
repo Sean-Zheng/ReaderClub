@@ -7,6 +7,10 @@
       <div>
         <recommend></recommend>
       </div>
+      <div v-if="getLoginResult" class="recommend-item-box">
+        <p style="text-align: center;margin:0 0 5px;">推荐列表</p>
+        <recommend-item v-for="item in recommendList" :Item="item" :key="item.book_url"></recommend-item>
+      </div>
     </div>
     <div class="home-second">
       <div
@@ -28,14 +32,31 @@
 import Classification from "@/components/Classification";
 import Recommend from "@/components/Recommend";
 import ClassificationRecommend from "@/components/ClassificationRecommend";
+import RecommendItem from "../components/RecommendItem";
+import { mapState,mapGetters, mapActions } from "vuex";
 export default {
   name: "home",
+  data () {
+    return {
+      url1:process.env.VUE_APP_SCRAPY_URL,
+      url2:process.env.VUE_APP_FLASK_URL
+    }
+  },
   components: {
     Classification,
     Recommend,
-    ClassificationRecommend
+    ClassificationRecommend,
+    RecommendItem
+  },
+  computed: {
+    ...mapState(["recommendList"]),
+    ...mapGetters(["getLoginResult"])
+  },
+  methods: {
+    ...mapActions(["recommendAction"])
   },
   created() {
+    this.recommendAction();
     this.$store
       .dispatch("homeAction")
       .then(result => {
@@ -57,14 +78,22 @@ export default {
 </script>
 
 <style scoped>
-.home{
+.home {
   padding: 10px 150px;
-  /* overflow: auto; */
+}
+.recommend-item-box{
+  background-color: #f7f6f2;
+  border: 1px solid #e6e6e6;
+  box-sizing: border-box;
+  padding: 5px;
 }
 .home-first {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+.recommend-item-box{
+  width:300px;
 }
 .home-second {
   overflow: auto;

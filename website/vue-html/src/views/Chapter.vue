@@ -36,7 +36,7 @@ export default {
   methods: {
     getData() {
       axios
-        .post("/scrapyrt", {
+        .post(`${process.env.VUE_APP_SCRAPY_URL}`, {
           spider_name: "Chapter",
           request: {
             url: this.$route.query.link

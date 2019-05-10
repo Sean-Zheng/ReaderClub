@@ -66,7 +66,7 @@ export default {
       } else {
         //检查用户名是否重复
         axios
-          .get("/flask/user/name", {
+          .get(`${process.env.VUE_APP_FLASK_URL}/user/name`, {
             params: {
               nickname: value
             }
@@ -151,7 +151,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           axios
-            .post("/flask/user/register", {
+            .post(`${process.env.VUE_APP_FLASK_URL}/user/register`, {
               email: this.registerForm.email,
               password: this.registerForm.password,
               nickname: this.registerForm.nickname

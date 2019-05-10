@@ -29,7 +29,7 @@ export default {
     getWebData() {
       this.loading = true;
       axios
-        .post("/scrapyrt", {
+        .post(`${process.env.VUE_APP_SCRAPY_URL}`, {
           spider_name: "Classification",
           request: {
             url: this.$store.state.typeLink[this.$route.params.typename]

@@ -1,11 +1,14 @@
 from flask import Flask,render_template,g
 from flask_httpauth import HTTPTokenAuth
+from flask_cors import CORS
 from Models import *
 import config
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
+
+CORS(app, supports_credentials=True)
 
 auth=HTTPTokenAuth()
 
@@ -33,8 +36,13 @@ def error_handler():
 #首页
 @app.route('/')
 def index():
-    return 'index'
-    # return render_template('index.html')
+    # return 'index'
+    return render_template('index.html')
+
+
+@app.route('/index')
+def testindex():
+    return render_template('test.html')
 
 
 #引入视图映射

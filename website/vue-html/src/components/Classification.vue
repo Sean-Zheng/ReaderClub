@@ -45,10 +45,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style scoped>
 .color-box {
   background-color: #f7f6f2;

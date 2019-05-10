@@ -44,7 +44,7 @@ export default {
       } else {
         axios
           .post(
-            "/flask/comment/add",
+            `${process.env.VUE_APP_FLASK_URL}/comment/add`,
             {
               book_name: this.name,
               book_author: this.author,

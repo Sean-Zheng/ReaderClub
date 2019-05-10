@@ -78,7 +78,7 @@ export default {
     addToShelf() {
       axios
         .post(
-          "/flask/book/add",
+          `${process.env.VUE_APP_FLASK_URL}/book/add`,
           {
             name: this.name,
             author: this.author,
@@ -122,7 +122,7 @@ export default {
     },
     initMessage() {
       return axios
-        .post("/scrapyrt", {
+        .post(`${process.env.VUE_APP_SCRAPY_URL}`, {
           spider_name: "Catalog",
           request: {
             url: this.$route.query.url
@@ -158,7 +158,7 @@ export default {
     },
     initComments() {
       axios
-        .post("/flask/comment/book/list", {
+        .post(`${process.env.VUE_APP_FLASK_URL}/comment/book/list`, {
           name: this.name,
           author: this.author
         })

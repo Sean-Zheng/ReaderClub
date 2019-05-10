@@ -34,6 +34,7 @@ export default new Vuex.Store({
             恐怖灵异: 'https://www.biduo.cc/book_8_1/',
             其他小说: 'https://www.biduo.cc/book_10_1/'
         },
+        recommendList: [],
         //阅读主题
         theme: 'default'
     },
@@ -90,18 +91,21 @@ export default new Vuex.Store({
         setBookList: (state, data) => {
             state.bookshelfList = null;
             state.bookshelfList = data.list;
+        },
+        setRecommendList: (state, data) => {
+            state.recommendList = data.booklist
         }
     },
     actions: {
         loginAction: async (context, payload) => {
-            const response = await axios.post('/flask/user/login', {
+            const response = await axios.post(`${process.env.VUE_APP_FLASK_URL}/user/login`, {
                 account: payload.account,
                 password: payload.password
             });
             context.commit("setToken", response.data);
         },
         homeAction: async context => {
-            const response = await axios.post('/scrapyrt', {
+            const response = await axios.post(`${process.env.VUE_APP_SCRAPY_URL}`, {
                 spider_name: 'Home',
                 request: {
                     url: 'https://www.biduo.cc/'
@@ -114,7 +118,7 @@ export default new Vuex.Store({
             if (!context.getters.getLoginResult) {
                 return;
             }
-            const response = await axios.get('/flask/book/list', {
+            const response = await axios.get(`${process.env.VUE_APP_FLASK_URL}/book/list`, {
                 headers: {
                     Authorization: context.getters.getToken
                 }
@@ -122,7 +126,7 @@ export default new Vuex.Store({
             context.commit('setBookList', response.data);
         },
         removeBookAction: async (context, payload) => {
-            const response = await axios.post("/flask/book/remove",
+            const response = await axios.post(`${process.env.VUE_APP_FLASK_URL}/book/remove`,
                 {
                     name: payload.name,
                     author: payload.author,
@@ -135,7 +139,17 @@ export default new Vuex.Store({
             );
             context.dispatch("getBookListAction");
             return response.data.status;
+        },
+        recommendAction: async (context) => {
+            if (!context.getters.getLoginResult) {
+                return;
+            }
+            const response = await axios.get(`${process.env.VUE_APP_FLASK_URL}/recommend`, {
+                headers: {
+                    Authorization: context.getters.getToken
+                }
+            });
+            context.commit('setRecommendList', response.data);
         }
-
     }
 })

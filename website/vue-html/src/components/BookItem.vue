@@ -61,7 +61,7 @@ export default {
     addToShelf() {
       axios
         .post(
-          "/flask/book/add",
+          `${process.env.VUE_APP_FLASK_URL}/book/add`,
           {
             name: this.item.name,
             author: this.item.author,

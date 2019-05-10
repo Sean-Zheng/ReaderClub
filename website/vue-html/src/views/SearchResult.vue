@@ -36,7 +36,7 @@ export default {
   methods: {
     searchBooks() {
       return axios
-        .post("/scrapyrt", {
+        .post(`${process.env.VUE_APP_SCRAPY_URL}`, {
           spider_name: "Search",
           request: {
             url:
