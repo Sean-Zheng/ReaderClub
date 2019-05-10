@@ -23,3 +23,10 @@ def test_login():
 def initdatabase():
     db.create_all()
     return 'success'
+
+@app.route('/test/dict')
+def dict_test():
+    mydict={}
+    mydict['12']=12
+    mydict['ss']='aa'
+    return jsonify(dict=mydict)

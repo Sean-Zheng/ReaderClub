@@ -1,0 +1,24 @@
+@token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1NzQ3Nzc2MywiZXhwIjoxNTU3NDk1NzYzfQ.eyJlbWFpbCI6IjU3NjkzNzI4N0BxcS5jb20iLCJwYXNzd29yZCI6IiQ2JHJvdW5kcz02NTYwMDAkRUZQR09rOUFzUEVnUXlUUSRFNWVTcWx4Zjc2ZWs1eU00TUI3R0RYLzhsR0FyQnMueXh0WW1jYVpZY00wSEhnaS9raEJrOTd6alVnd3JkNGw2S3QwS3g0UmkuOHA0Vnl3YmdJUWx1LiJ9.SlqC_nofELOnUlIB-wCC-pgCt7WWMxA4x134e2cQimJpJw4_VWfdiOSrJIcmOeAYXT2iG5JICyBV0FSiQDhCOg
+
+### 登录
+POST http://127.0.0.1:5000/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "account":"sean",
+    "password":"12345678"
+}
+
+### 推荐
+
+GET http://127.0.0.1:5000/recommend HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 登陆测试
+
+GET http://127.0.0.1:5000/test/login HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### 字典测试
+GET http://127.0.0.1:5000/test/dict HTTP/1.1

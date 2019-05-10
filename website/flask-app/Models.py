@@ -134,3 +134,7 @@ class BookMessage(db.Model):
     @staticmethod
     def get_book(book_name,book_author):
         return BookMessage.query.filter_by(BookName=book_name,BookAuthor=book_author).first()
+    
+    @staticmethod
+    def get_book_by_id(book_id):
+        return BookMessage.query.get(book_id)

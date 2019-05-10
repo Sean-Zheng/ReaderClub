@@ -43,6 +43,7 @@ from BookShelfMoudles import *
 from MarkMoudles import *
 from CommentMoudles import *
 from TestMoudles import *
+from Recommend import *
 
 
 if __name__ == '__main__':

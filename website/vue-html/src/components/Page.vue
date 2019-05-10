@@ -58,12 +58,13 @@
           <span v-else>书架</span>
         </li>
         <!-- 书签 -->
-        <el-popover placement="right-start" trigger="click" v-model="showMarks" @show="judgeLogin()">
-          <li slot="reference">
-            <em class="iconfont icon-icon--"></em>
-            <span>书签</span>
-          </li>
-        </el-popover>
+        <!-- <el-popover placement="right-start" trigger="click" v-model="showMarks" @show="judgeLogin()"> -->
+        <!-- <li slot="reference"> -->
+        <li @click="addMarks">
+          <em class="iconfont icon-icon--"></em>
+          <span>书签</span>
+        </li>
+        <!-- </el-popover> -->
         <!-- 评论 -->
         <el-popover
           placement="right-start"
@@ -109,7 +110,7 @@ export default {
       activeName: "catalogs",
       showCatalogs: false,
       showSetting: false,
-      showMarks:false,
+      showMarks: false,
       showComment: false,
       loadding: true,
       catalogs_loading: true,
@@ -237,6 +238,14 @@ export default {
         this.$router.push("/login");
       }
     },
+    addMarks() {
+      this.judgeLogin();
+      this.$message({
+        message: "添加成功",
+        type: "success"
+      });
+      this.showMarks=true;
+    },
     ...mapActions(["getBookListAction"])
   },
   props: {
@@ -319,8 +328,7 @@ export default {
   width: 650px;
   height: 750px;
 }
-.catalog-box {
-}
+
 .catalog-box > dl {
   margin: 0;
   height: 650px;
@@ -393,6 +401,7 @@ export default {
   width: 700px;
   margin: 20px;
 }
+
 .title-box > h3 {
   margin: 0;
   text-align: center;
