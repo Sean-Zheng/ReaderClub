@@ -15,5 +15,5 @@ SQLALCHEMY_DATABASE_URI = '''{dialect}+{driver}://{username}:{password}@{host}:
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-#生成随机盐
-SECRET_KEY=urandom(24)
+# 生成随机盐
+SECRET_KEY = urandom(24)
